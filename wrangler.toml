@@ -2,8 +2,8 @@ name = "soccer-app"
 main = "src/index.ts"
 compatibility_date = "2024-06-01"
 
-[site]
-bucket = "./frontend"
+[assets]
+directory = "./frontend"
 
 [[d1_databases]]
 binding = "DB"
