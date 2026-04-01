@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>⚽ הקט של שובל</title>
+
+<style>
+/* ══════════════════════════════════════════
+   RESET & VARIABLES — Dark Tech Palette
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #080c18;
+  --bg2:         #0d1225;
+  --card:        #111827;
+  --card2:       #1a2338;
+  --border:      rgba(0,212,180,.18);
+  --teal:        #00d4b4;
+  --teal-dim:    rgba(0,212,180,.12);
+  --teal-glow:   rgba(0,212,180,.35);
+  --blue:        #4a9eff;
+  --blue-dim:    rgba(74,158,255,.12);
+  --purple:      #8b5cf6;
+  --purple-dim:  rgba(139,92,246,.12);
+  --orange:      #f59e0b;
+  --orange-dim:  rgba(245,158,11,.12);
+  --red:         #ef4444;
+  --white:       #e2e8f0;
+  --muted:       #4a5568;
+  --muted2:      #718096;
+  --radius:      14px;
+  --radius-sm:   9px;
+  --shadow:      0 4px 32px rgba(0,0,0,.6);
+  --shadow-teal: 0 0 20px rgba(0,212,180,.25);
+}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════ */
+@keyframes spin      { to { transform: rotate(360deg); } }
+@keyframes fadeIn    { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 8px var(--teal-glow); }
+  50%     { box-shadow: 0 0 22px var(--teal-glow), 0 0 40px rgba(0,212,180,.15); }
+}
+@keyframes dot-pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:.5; transform:scale(.75); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes border-flow {
+  0%   { border-color: rgba(0,212,180,.4); }
+  50%  { border-color: rgba(74,158,255,.6); }
+  100% { border-color: rgba(0,212,180,.4); }
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+html { font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(0,212,180,.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, rgba(74,158,255,.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(139,92,246,.02) 0%, transparent 60%),
+    linear-gradient(rgba(0,212,180,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,180,.025) 1px, transparent 1px);
+  background-size: auto, auto, auto, 40px 40px, 40px 40px;
+  color: var(--white);
+  min-height: 100vh;
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.header {
+  background: linear-gradient(160deg, rgba(0,212,180,.08) 0%, var(--bg2) 60%, var(--bg) 100%);
+  padding: 16px 20px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 0 var(--border), 0 4px 30px rgba(0,0,0,.5);
+  backdrop-filter: blur(8px);
+}
+.header h1 {
+  font-size: 1.55rem; font-weight: 900; letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header .sub { color: var(--muted2); font-size: .82rem; margin-top: 4px; }
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+.nav {
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 64px; z-index: 99;
+  backdrop-filter: blur(8px);
+}
+.nav-btn {
+  flex: 1; padding: 10px 4px 9px;
+  background: transparent; border: none;
+  color: var(--muted2); font-size: .78rem; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+  border-bottom: 2px solid transparent;
+  letter-spacing: .2px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.nav-icon { font-size: 1.05rem; line-height: 1; }
+.nav-btn:hover { color: var(--white); background: rgba(255,255,255,.03); }
+.nav-btn.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+  background: var(--teal-dim);
+  text-shadow: 0 0 12px var(--teal-glow);
+}
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 4px var(--teal-glow)); }
+
+/* ══════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════ */
+.page { display: none; padding: 14px; max-width: 680px; margin: 0 auto; }
+.page.active { display: block; animation: fadeIn .3s ease; }
+
+/* ══════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════ */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 2px 16px rgba(0,0,0,.4);
+  transition: border-color .3s, box-shadow .3s;
+  animation: slideUp .35s ease both;
+}
+.card:hover {
+  border-color: rgba(0,212,180,.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 0 1px rgba(0,212,180,.08);
+}
+.card-title {
+  font-size: .95rem; font-weight: 800;
+  margin-bottom: 11px;
+  display: flex; align-items: center; gap: 6px;
+  color: var(--white); letter-spacing: .2px;
+}
+
+/* ══════════════════════════════════════════
+   STATUS BAR
+══════════════════════════════════════════ */
+.status-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, var(--card2), var(--card));
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  font-size: .88rem;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* ══════════════════════════════════════════
+   PLAYER ITEMS
+══════════════════════════════════════════ */
+.player-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; margin: 4px 0;
+  background: rgba(255,255,255,.03);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,.05);
+  cursor: pointer; transition: all .2s;
+  user-select: none;
+}
+.player-item:active { transform: scale(.98); }
+.player-item:hover {
+  background: var(--teal-dim);
+  border-color: rgba(0,212,180,.25);
+  transform: translateX(-2px);
+}
+.player-item.confirmed {
+  border-color: rgba(0,212,180,.4);
+  background: var(--teal-dim);
+  box-shadow: inset 3px 0 0 var(--teal);
+}
+.player-item.confirmed .pname { color: var(--teal); font-weight: 700; }
+.player-item.waiting {
+  border-color: rgba(245,158,11,.35);
+  background: var(--orange-dim);
+  box-shadow: inset 3px 0 0 var(--orange);
+}
+.player-item.waiting .pname { color: var(--orange); font-weight: 700; }
+.pname { font-size: .92rem; font-weight: 600; }
+.prating { font-size: .75rem; color: var(--muted2); }
+
+/* ══════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 800; white-space: nowrap;
+  letter-spacing: .3px;
+}
+.badge-green  { background: var(--teal);   color: #000; box-shadow: 0 0 10px var(--teal-glow); }
+.badge-orange { background: var(--orange); color: #000; }
+.badge-red    { background: var(--red);    color: #fff; }
+.badge-blue   { background: var(--blue);   color: #fff; }
+.badge-muted  { background: rgba(255,255,255,.08); color: var(--muted2); border: 1px solid rgba(255,255,255,.1); }
+
+/* ══════════════════════════════════════════
+   OVERALL RATING PILL
+══════════════════════════════════════════ */
+.ov-pill {
+  background: linear-gradient(135deg, var(--orange), #f97316);
+  color: #000;
+  padding: 2px 10px; border-radius: 20px;
+  font-size: .75rem; font-weight: 900;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(245,158,11,.3);
+}
+
+/* ══════════════════════════════════════════
+   ATTRIBUTE BAR (mini)
+══════════════════════════════════════════ */
+.attr-bar-row {
+  display: flex; align-items: center; gap: 6px;
+  margin: 4px 0; font-size: .78rem;
+}
+.attr-label { min-width: 80px; color: var(--muted2); }
+.attr-bar-track {
+  flex: 1; height: 5px; background: rgba(255,255,255,.07);
+  border-radius: 4px; overflow: hidden;
+}
+.attr-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 6px rgba(0,212,180,.4);
+}
+.attr-val { min-width: 18px; text-align: left; font-weight: 700; color: var(--white); }
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+  cursor: pointer; font-size: .87rem; font-weight: 800;
+  transition: all .2s; letter-spacing: .3px;
+}
+.btn:active { transform: scale(.96); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), #00b89e);
+  color: #000;
+  box-shadow: 0 4px 14px rgba(0,212,180,.3);
+}
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(0,212,180,.5);
+  transform: translateY(-1px);
+}
+.btn-danger  { background: var(--red); color: #fff; box-shadow: 0 4px 14px rgba(239,68,68,.3); }
+.btn-danger:hover { background: #f87171; box-shadow: 0 6px 20px rgba(239,68,68,.4); transform: translateY(-1px); }
+.btn-warn    {
+  background: linear-gradient(135deg, var(--orange), #f97316);
+  color: #000;
+  box-shadow: 0 4px 14px rgba(245,158,11,.3);
+}
+.btn-warn:hover { box-shadow: 0 6px 20px rgba(245,158,11,.5); transform: translateY(-1px); }
+.btn-ghost   {
+  background: rgba(255,255,255,.04);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,.1);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.08); border-color: rgba(0,212,180,.3); }
+.btn-full { width: 100%; margin-top: 7px; }
+.btn-sm   { padding: 5px 10px; font-size: .75rem; }
+
+/* ══════════════════════════════════════════
+   FORM INPUTS
+══════════════════════════════════════════ */
+input[type="text"], input[type="password"] {
+  width: 100%;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--white); padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: .88rem; margin: 5px 0;
+  transition: all .2s; font-family: inherit;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,212,180,.12), 0 0 12px rgba(0,212,180,.1);
+}
+input::placeholder { color: rgba(255,255,255,.25); }
+input[type="range"] {
+  background: transparent; border: none; padding: 0;
+  cursor: pointer; accent-color: var(--teal);
+}
+
+/* ══════════════════════════════════════════
+   TEAMS PAGE
+══════════════════════════════════════════ */
+.teams-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media(min-width:560px){ .teams-grid { grid-template-columns: repeat(3,1fr); } }
+
+.team-card {
+  border-radius: var(--radius); padding: 16px;
+  border: 1px solid; position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.team-card::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(140deg, rgba(255,255,255,.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+.team-card:hover { transform: translateY(-3px); }
+.team-A {
+  border-color: rgba(0,212,180,.4);
+  background: linear-gradient(140deg, rgba(0,212,180,.06), rgba(0,212,180,.02));
+  box-shadow: 0 4px 24px rgba(0,212,180,.12), inset 0 1px 0 rgba(0,212,180,.15);
+}
+.team-A:hover { box-shadow: 0 8px 32px rgba(0,212,180,.2); }
+.team-B {
+  border-color: rgba(74,158,255,.4);
+  background: linear-gradient(140deg, rgba(74,158,255,.06), rgba(74,158,255,.02));
+  box-shadow: 0 4px 24px rgba(74,158,255,.12), inset 0 1px 0 rgba(74,158,255,.15);
+}
+.team-B:hover { box-shadow: 0 8px 32px rgba(74,158,255,.2); }
+.team-C {
+  border-color: rgba(139,92,246,.4);
+  background: linear-gradient(140deg, rgba(139,92,246,.06), rgba(139,92,246,.02));
+  box-shadow: 0 4px 24px rgba(139,92,246,.12), inset 0 1px 0 rgba(139,92,246,.15);
+}
+.team-C:hover { box-shadow: 0 8px 32px rgba(139,92,246,.2); }
+
+.team-hd { text-align: center; font-size: 1.1rem; font-weight: 900; margin-bottom: 4px; letter-spacing: .5px; }
+.team-avg { text-align: center; font-size: .76rem; color: rgba(255,255,255,.4); margin-bottom: 12px; }
+
+.team-pl-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 10px; margin: 3px 0;
+  background: rgba(0,0,0,.3); border-radius: 7px;
+  font-size: .85rem; border: 1px solid rgba(255,255,255,.04);
+  transition: all .15s;
+}
+.team-A .team-pl-row:hover { background: rgba(0,212,180,.08); border-color: rgba(0,212,180,.2); }
+.team-B .team-pl-row:hover { background: rgba(74,158,255,.08); border-color: rgba(74,158,255,.2); }
+.team-C .team-pl-row:hover { background: rgba(139,92,246,.08); border-color: rgba(139,92,246,.2); }
+
+.team-attrs { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.07); }
+.team-attrs-title { font-size: .72rem; color: var(--muted2); margin-bottom: 6px; font-weight: 700; letter-spacing: .3px; }
+
+/* ══════════════════════════════════════════
+   ADMIN - PLAYER EDIT PANEL
+══════════════════════════════════════════ */
+.admin-pl-item {
+  background: rgba(255,255,255,.02); border-radius: var(--radius-sm);
+  margin: 7px 0; border: 1px solid rgba(255,255,255,.07);
+  overflow: hidden; transition: border-color .2s;
+}
+.admin-pl-item:hover { border-color: rgba(0,212,180,.2); }
+.admin-pl-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; cursor: pointer;
+  transition: background .15s;
+}
+.admin-pl-header:hover { background: var(--teal-dim); }
+.admin-pl-name { flex: 1; font-size: .9rem; font-weight: 700; }
+.admin-pl-body { padding: 10px 14px 14px; border-top: 1px solid rgba(255,255,255,.06); display: none; }
+.admin-pl-body.open { display: block; }
+
+.attr-slider-row {
+  display: flex; align-items: center; gap: 8px;
+  margin: 7px 0; font-size: .82rem;
+}
+.attr-slider-label { min-width: 90px; color: var(--muted2); }
+.attr-slider-val {
+  min-width: 22px; text-align: center;
+  font-weight: 900; color: var(--orange);
+}
+
+/* ══════════════════════════════════════════
+   OVERALL SCORE DISPLAY
+══════════════════════════════════════════ */
+.ov-display {
+  text-align: center; margin-bottom: 8px;
+  font-size: .82rem; color: var(--muted2);
+}
+.ov-big {
+  font-size: 1.7rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--orange), #f97316);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline;
+}
+
+/* ══════════════════════════════════════════
+   LOADING / EMPTY
+══════════════════════════════════════════ */
+.loading { text-align: center; padding: 30px 20px; color: var(--muted2); }
+.spinner {
+  display: inline-block; width: 26px; height: 26px;
+  border: 2px solid rgba(0,212,180,.2);
+  border-top-color: var(--teal); border-radius: 50%;
+  animation: spin .7s linear infinite; margin-bottom: 9px;
+  box-shadow: 0 0 12px rgba(0,212,180,.2);
+}
+.empty-state { text-align: center; padding: 36px 20px; color: var(--muted2); }
+.empty-state .ei { font-size: 2.4rem; margin-bottom: 11px; }
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 22px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: linear-gradient(135deg, var(--teal), #00b89e);
+  color: #000;
+  padding: 10px 24px; border-radius: 24px;
+  font-weight: 800; font-size: .88rem;
+  z-index: 9999; opacity: 0; transition: all .3s cubic-bezier(.4,0,.2,1);
+  white-space: nowrap; pointer-events: none;
+  box-shadow: 0 4px 24px rgba(0,212,180,.4), 0 8px 40px rgba(0,0,0,.5);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════════
+   SETUP OVERLAY
+══════════════════════════════════════════ */
+#setupOverlay {
+  position: fixed; inset: 0; background: rgba(8,12,24,.95);
+  z-index: 9000; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(12px);
+}
+#setupOverlay.show { display: flex; }
+.setup-box {
+  background: var(--card); border-radius: 18px; padding: 28px;
+  max-width: 440px; width: 100%;
+  border: 1px solid rgba(0,212,180,.3);
+  box-shadow: 0 0 40px rgba(0,212,180,.12), var(--shadow);
+}
+.setup-box h2 { font-size: 1.25rem; margin-bottom: 14px; }
+.setup-box p  { color: var(--muted2); font-size: .85rem; line-height: 1.65; margin-bottom: 10px; }
+.setup-step {
+  background: rgba(0,0,0,.3); border-radius: 9px;
+  padding: 10px 14px; margin: 8px 0; font-size: .82rem; line-height: 1.6;
+  border: 1px solid rgba(255,255,255,.06);
+}
+.setup-step strong { color: var(--white); }
+code { background: rgba(0,212,180,.1); border: 1px solid rgba(0,212,180,.2); padding: 1px 6px; border-radius: 4px; font-size: .82rem; color: var(--teal); }
+
+/* ══════════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════════ */
+hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; }
+
+/* ══════════════════════════════════════════
+   FLEXBOX UTILS
+══════════════════════════════════════════ */
+.row { display: flex; gap: 8px; }
+.row-c { display: flex; align-items: center; gap: 8px; }
+.f1 { flex: 1; }
+
+/* ══════════════════════════════════════════
+   LIVE STATUS DOT
+══════════════════════════════════════════ */
+.live-dot {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--teal);
+  animation: dot-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--teal-glow);
+}
+
+/* ══════════════════════════════════════════
+   HISTORY PAGE
+══════════════════════════════════════════ */
+.history-week {
+  background: var(--card); border-radius: var(--radius);
+  margin-bottom: 14px; border: 1px solid rgba(255,255,255,.06);
+  overflow: hidden; transition: border-color .2s;
+  animation: slideUp .35s ease both;
+}
+.history-week:hover { border-color: rgba(0,212,180,.2); }
+.history-week-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; cursor: pointer;
+  background: linear-gradient(135deg, rgba(0,212,180,.05), transparent);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.history-week-date { font-weight: 800; font-size: 1rem; color: var(--teal); }
+.history-week-body { padding: 14px 16px; display: none; }
+.history-week-body.open { display: block; }
+
+/* Gallery */
+.gallery-header {
+  text-align:center; padding: 20px 16px 8px;
+}
+.gallery-header h2 { font-size: 1.3rem; font-weight: 900; color: var(--teal); }
+.gallery-header p  { font-size: .82rem; color: var(--muted2); margin-top:4px; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+.gallery-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  animation: fadeIn .35s ease;
+  transition: border-color .2s, transform .2s;
+}
+.gallery-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+.gallery-card-thumb {
+  width: 100%; aspect-ratio: 1 / 1;
+  background: var(--card2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.6rem;
+  position: relative;
+  overflow: hidden;
+}
+.gallery-card-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0;
+}
+.gallery-card-body { padding: 10px 10px 12px; }
+.gallery-card-date { font-weight: 800; font-size: .88rem; color: var(--teal); }
+.gallery-card-sub  { font-size: .73rem; color: var(--muted2); margin-top:2px; }
+.gallery-card-btn  {
+  display: block; margin-top: 10px;
+  background: var(--teal-dim); border: 1px solid rgba(0,212,180,.3);
+  color: var(--teal); text-align: center; padding: 7px 4px;
+  border-radius: var(--radius-sm); font-size: .82rem; font-weight: 700;
+  text-decoration: none; transition: background .2s;
+}
+.gallery-card-btn:hover { background: rgba(0,212,180,.22); }
+
+/* ══ SQUAD PAGE ══ */
+.squad-header {
+  text-align:center; padding: 22px 16px 6px;
+}
+.squad-header h2 { font-size: 1.3rem; font-weight: 900; color: var(--teal); }
+.squad-header p  { font-size: .82rem; color: var(--muted2); margin-top:4px; }
+
+.squad-search {
+  margin: 10px 16px 4px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--white);
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  font-size: .88rem;
+  font-family: inherit;
+  width: calc(100% - 32px);
+  transition: border-color .2s;
+}
+.squad-search:focus { outline:none; border-color: rgba(0,212,180,.4); }
+
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 14px 12px 28px;
+}
+
+.squad-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation: fadeIn .3s ease;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  cursor: default;
+  position: relative;
+}
+.squad-card:hover {
+  border-color: rgba(0,212,180,.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,.6), 0 0 24px rgba(0,212,180,.12);
+}
+
+/* Photo area — 3/4 * 0.9 ≈ 5/6 */
+.squad-card-photo {
+  width: 100%; aspect-ratio: 5 / 6;
+  background: linear-gradient(160deg, var(--card2) 0%, var(--bg2) 100%);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.squad-card-photo img {
+  width:100%; height:100%; object-fit:cover;
+  position:absolute; inset:0;
+  transition: transform .35s ease;
+}
+.squad-card:hover .squad-card-photo img { transform: scale(1.04); }
+
+.squad-card-avatar {
+  font-size: 4rem; font-weight: 900; color: var(--teal);
+  text-shadow: 0 0 30px rgba(0,212,180,.5);
+  letter-spacing: -2px;
+}
+
+/* Position badge top-left */
+.squad-pos-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(8,12,24,.82);
+  border: 1px solid rgba(0,212,180,.35);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: .7rem; font-weight: 800; color: var(--teal);
+  backdrop-filter: blur(6px);
+  letter-spacing: .03em;
+}
+
+/* Team logo badge bottom-right */
+.squad-card-team-badge {
+  position: absolute; bottom: 10px; right: 10px;
+  width: 54px; height: 54px;
+  background: rgba(8,12,24,.92);
+  border: 2px solid rgba(255,255,255,.30);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 7px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0,0,0,.7);
+}
+.squad-card-team-badge img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.squad-card-team-badge span { font-size: 1.4rem; }
+
+/* Gradient overlay at photo bottom */
+.squad-card-photo-overlay {
+  position:absolute; bottom:0; left:0; right:0; height:55%;
+  background: linear-gradient(to top, rgba(8,12,24,.9) 0%, transparent 100%);
+  pointer-events:none;
+}
+
+/* Card body */
+.squad-card-body {
+  padding: 13px 14px 15px;
+  text-align: center;
+}
+.squad-card-name {
+  font-weight: 900; font-size: 1rem; color: var(--white);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.squad-card-favteam {
+  font-size: .74rem; color: var(--orange); font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+
+/* Stats pills */
+.squad-stats-row {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 4px; margin-bottom: 7px;
+}
+.squad-stat-pill {
+  background: var(--card2);
+  border: 1px solid rgba(0,212,180,.18);
+  border-radius: 20px;
+  padding: 3px 9px;
+  display: flex; align-items: center; gap: 3px;
+  white-space: nowrap;
+}
+.squad-stat-pill-val {
+  font-size: .78rem; font-weight: 900; color: var(--teal);
+}
+.squad-stat-pill-lbl {
+  font-size: .65rem; color: var(--muted2);
+}
+
+.squad-card-dob {
+  font-size: .72rem; color: var(--muted2);
+  display: flex; align-items:center; justify-content:center; gap:4px;
+}
+
+.mvp-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(245,158,11,.05));
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: 30px; padding: 6px 14px;
+  font-weight: 800; color: var(--orange); font-size: .9rem;
+  box-shadow: 0 0 12px rgba(245,158,11,.15);
+}
+
+.result-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 12px; margin: 4px 0;
+  background: rgba(255,255,255,.03); border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.05);
+}
+.result-score {
+  font-size: 1.2rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.action-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px;
+  font-weight: 700; font-size: .85rem; text-decoration: none;
+  transition: all .2s; cursor: pointer;
+}
+.action-link-bit {
+  background: rgba(0,212,180,.1); color: var(--teal);
+  border: 1px solid rgba(0,212,180,.25);
+}
+.action-link-bit:hover { background: rgba(0,212,180,.2); box-shadow: 0 0 14px rgba(0,212,180,.2); }
+.action-link-gallery {
+  background: rgba(74,158,255,.1); color: var(--blue);
+  border: 1px solid rgba(74,158,255,.25);
+}
+.action-link-gallery:hover { background: rgba(74,158,255,.2); }
+
+/* ══════════════════════════════════════════
+   NOTIFICATION BUTTONS
+══════════════════════════════════════════ */
+.notif-btn {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 12px 16px; margin: 6px 0;
+  border: none; border-radius: var(--radius-sm);
+  cursor: pointer; font-size: .9rem; font-weight: 700;
+  transition: all .2s; text-align: right; direction: rtl;
+}
+.notif-btn-wa {
+  background: rgba(37,211,102,.1); color: #25d366;
+  border: 1px solid rgba(37,211,102,.25);
+}
+.notif-btn-wa:hover { background: rgba(37,211,102,.2); box-shadow: 0 0 14px rgba(37,211,102,.2); }
+.notif-btn-email {
+  background: rgba(74,158,255,.1); color: var(--blue);
+  border: 1px solid rgba(74,158,255,.25);
+}
+.notif-btn-email:hover { background: rgba(74,158,255,.2); }
+.notif-btn-copy {
+  background: rgba(139,92,246,.1); color: var(--purple);
+  border: 1px solid rgba(139,92,246,.25);
+}
+.notif-btn-copy:hover { background: rgba(139,92,246,.2); }
+
+/* ══════════════════════════════════════════
+   PAYMENT TRACKER
+══════════════════════════════════════════ */
+.paid-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 12px; margin: 3px 0;
+  background: rgba(255,255,255,.02); border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.05);
+}
+.paid-row.paid-yes { border-color: rgba(0,212,180,.25); background: rgba(0,212,180,.05); }
+.paid-row.paid-no  { border-color: rgba(239,68,68,.2); background: rgba(239,68,68,.03); }
+.paid-toggle {
+  border: none; border-radius: 6px; padding: 3px 10px;
+  font-size: .75rem; font-weight: 700; cursor: pointer; transition: all .15s;
+}
+.paid-toggle.is-paid { background: rgba(0,212,180,.2); color: var(--teal); }
+.paid-toggle.not-paid { background: rgba(239,68,68,.2); color: var(--red); }
+
+/* score inputs */
+.score-input {
+  width: 54px; text-align: center; font-size: 1.1rem;
+  font-weight: 900; padding: 6px 4px;
+}
+
+/* ══════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════ */
+.home-hero {
+  background: linear-gradient(135deg, rgba(0,212,180,.1) 0%, rgba(74,158,255,.05) 50%, rgba(139,92,246,.08) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 20px 22px;
+  text-align: center;
+  margin-bottom: 12px;
+  position: relative; overflow: hidden;
+  animation: slideUp .35s ease both;
+}
+.home-hero::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(140deg, rgba(255,255,255,.03) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-game-date {
+  font-size: 1.15rem; font-weight: 900; color: var(--teal);
+  letter-spacing: .5px; margin-bottom: 2px;
+}
+.hero-subtitle { font-size: .78rem; color: var(--muted2); margin-bottom: 16px; }
+.countdown-grid {
+  display: flex; justify-content: center; gap: 10px; margin-bottom: 18px;
+}
+.countdown-box {
+  background: rgba(0,0,0,.45); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px; min-width: 64px; text-align: center;
+}
+.countdown-num {
+  font-size: 1.65rem; font-weight: 900; color: var(--teal);
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.countdown-label { font-size: .62rem; color: var(--muted2); margin-top: 4px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; }
+
+/* Reg status card */
+.home-reg-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 15px 16px;
+  margin-bottom: 12px; animation: slideUp .35s .05s ease both;
+}
+.reg-bar-track {
+  width: 100%; height: 7px;
+  background: rgba(255,255,255,.07); border-radius: 4px; overflow: hidden; margin: 10px 0 8px;
+}
+.reg-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* Avatar */
+.player-avatar {
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; color: #fff; flex-shrink: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+/* MVP card */
+.home-mvp-card {
+  background: linear-gradient(135deg, rgba(245,158,11,.09), rgba(245,158,11,.03));
+  border: 1px solid rgba(245,158,11,.3); border-radius: var(--radius);
+  padding: 15px 16px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 8px;
+  margin-bottom: 12px; animation: slideUp .35s .1s ease both;
+  cursor: default;
+}
+.mvp-info { width: 100%; text-align: center; }
+.mvp-week-lbl { font-size: .7rem; color: var(--muted2); margin-bottom: 2px; }
+.mvp-name-big { font-size: 1.1rem; font-weight: 900; color: var(--orange); }
+.mvp-sub { font-size: .72rem; color: rgba(245,158,11,.6); margin-top: 2px; }
+
+/* Gallery btn */
+.home-gallery-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, rgba(74,158,255,.08), rgba(74,158,255,.03));
+  border: 1px solid rgba(74,158,255,.28); border-radius: var(--radius);
+  padding: 14px 16px; text-decoration: none; color: var(--white);
+  font-weight: 700; font-size: .9rem; margin-bottom: 12px;
+  transition: all .2s; animation: slideUp .35s .15s ease both;
+}
+.home-gallery-btn:hover { background: rgba(74,158,255,.14); transform: translateX(-3px); }
+
+/* Stat cards row */
+.home-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.home-stat-card {
+  background: var(--card); border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius); padding: 14px 12px; text-align: center;
+  animation: slideUp .35s .2s ease both;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.home-stat-card .player-avatar { margin: 0 auto 6px; }
+.home-stat-num { font-size: 2rem; font-weight: 900; color: var(--teal); line-height: 1; }
+.home-stat-label { font-size: .7rem; color: var(--muted2); margin-top: 5px; font-weight: 600; letter-spacing: .3px; }
+
+/* Top player rows */
+.home-top-player {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 8px; border-radius: var(--radius-sm); margin: 3px 0;
+  background: rgba(255,255,255,.02); transition: background .15s;
+}
+.home-top-player:hover { background: var(--teal-dim); }
+.home-rank { font-size: .85rem; font-weight: 900; min-width: 22px; text-align: center; }
+.home-rank.gold   { color: #f59e0b; }
+.home-rank.silver { color: #94a3b8; }
+.home-rank.bronze { color: #cd7f32; }
+
+/* Results */
+.home-result-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.025); margin: 4px 0; font-size: .88rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════ -->
+<header class="header">
+  <h1>⚽ הקט של שובל<span class="live-dot"></span></h1>
+  <div class="sub" id="weekLabel">טוען...</div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="nav">
+  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-icon">🏠</span>בית</button>
+  <button class="nav-btn"        onclick="switchPage('reg',this)"><span class="nav-icon">✍️</span>הרשמה</button>
+  <button class="nav-btn"        onclick="switchPage('teams',this)"><span class="nav-icon">⚡</span>קבוצות</button>
+  <button class="nav-btn"        onclick="switchPage('history',this)"><span class="nav-icon">📊</span>היסטוריה</button>
+  <button class="nav-btn"        onclick="switchPage('gallery',this)"><span class="nav-icon">📸</span>גלריה</button>
+  <button class="nav-btn"        onclick="switchPage('squad',this)"><span class="nav-icon">👕</span>הסגל</button>
+  <button class="nav-btn"        onclick="switchPage('admin',this)"><span class="nav-icon">🔑</span>ניהול</button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero Countdown -->
+  <div class="home-hero">
+    <div class="hero-game-date" id="heroGameDate">⚽ שבת הקרובה</div>
+    <div class="hero-subtitle">הכן את הרגליים — המשחק מגיע</div>
+    <div id="homeCountdown"><div class="loading"><div class="spinner"></div></div></div>
+    <button class="btn btn-primary" style="margin-top:4px;padding:10px 28px;font-size:.95rem;"
+            onclick="switchPage('reg', document.querySelectorAll('.nav-btn')[1])">✍️ הירשם עכשיו</button>
+  </div>
+
+  <!-- Registration status -->
+  <div class="home-reg-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+      <span style="font-weight:800;font-size:.92rem;">🎯 הרשמה לשבת</span>
+      <span id="homeRegStatus" style="font-size:.82rem;">בודק...</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span id="homeSpotsLeft" style="font-size:.75rem;color:var(--muted2);">...</span>
+      <span id="homeRegCount" style="font-size:1.15rem;font-weight:900;color:var(--teal);" dir="ltr">0/15</span>
+    </div>
+    <div class="reg-bar-track"><div class="reg-bar-fill" id="homeRegBar" style="width:0%"></div></div>
+    <div id="homeRegPreview" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;"></div>
+  </div>
+
+  <!-- Awards row: MVP + Goal + Save -->
+  <div id="homeMvpSection" class="home-mvp-card" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:18px 16px;">
+    <div class="player-avatar" id="homeMvpAvatar" style="width:58px;height:58px;font-size:1.2rem;background:var(--teal)">?</div>
+    <div class="mvp-info" style="text-align:center;width:100%;">
+      <div class="mvp-week-lbl" id="homeMvpWeek">שבת אחרונה</div>
+      <div class="mvp-name-big" id="homeMvpName">—</div>
+      <div class="mvp-sub">⭐ שחקן המצטיין</div>
+    </div>
+  </div>
+  <div id="homeAwardsRow" style="display:none;gap:10px;flex-direction:row;">
+    <div id="homeGoalSection" class="home-mvp-card" style="flex:1;margin-bottom:0;padding:14px 10px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;">
+      <div style="font-size:1.6rem;">⚽</div>
+      <div class="mvp-info" style="text-align:center;width:100%;">
+        <div class="mvp-week-lbl">גול המחזור</div>
+        <div class="mvp-name-big" id="homeGoalName" style="font-size:.95rem;">—</div>
+      </div>
+    </div>
+    <div id="homeSaveSection" class="home-mvp-card" style="flex:1;margin-bottom:0;padding:14px 10px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;">
+      <div style="font-size:1.6rem;">🧤</div>
+      <div class="mvp-info" style="text-align:center;width:100%;">
+        <div class="mvp-week-lbl">הצלת המחזור</div>
+        <div class="mvp-name-big" id="homeSaveName" style="font-size:.95rem;">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery link -->
+  <a id="homeGalleryBtn" class="home-gallery-btn" href="#" target="_blank" style="display:none;">
+    <div>
+      <div style="font-size:.7rem;color:var(--muted2);margin-bottom:3px;">📸 גלריית תמונות</div>
+      <div style="font-size:.9rem;">לחץ לצפייה בתמונות השבוע</div>
+    </div>
+    <span style="font-size:1.4rem;color:var(--blue)">→</span>
+  </a>
+
+  <!-- Season stats row -->
+  <div class="home-row">
+    <div class="home-stat-card">
+      <div class="home-stat-num" id="homeTotalGames">—</div>
+      <div class="home-stat-label">שבתות שיחקנו</div>
+    </div>
+    <div class="home-stat-card" style="background:linear-gradient(135deg,rgba(245,158,11,.09),rgba(245,158,11,.02));border-color:rgba(245,158,11,.22);">
+      <div class="player-avatar" id="homeTopMvpAvatar" style="width:38px;height:38px;font-size:.82rem;margin:0 auto 6px;background:var(--teal)">?</div>
+      <div style="font-size:.88rem;font-weight:900;color:var(--orange);line-height:1.2;" id="homeTopMvpName">—</div>
+      <div class="home-stat-label" id="homeTopMvpCount">מצטיין המחזור</div>
+    </div>
+  </div>
+
+  <!-- Last game results -->
+  <div id="homeResultsSection" class="card" style="display:none;animation-delay:.22s;">
+    <div class="card-title">📊 תוצאות — <span id="homeResultsDate" style="font-weight:400;font-size:.8rem;color:var(--muted2);"></span></div>
+    <div id="homeResultsList"></div>
+  </div>
+
+  <!-- Top rated players -->
+  <div class="card" style="animation-delay:.27s;">
+    <div class="card-title">⭐ שחקנים מובילים</div>
+    <div id="homeTopPlayers"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: REGISTRATION
+══════════════════════════════════════════ -->
+<div class="page" id="page-reg">
+
+  <div class="status-bar">
+    <span id="regStatusTxt">בודק...</span>
+    <span id="regCountBadge" class="badge badge-green" dir="ltr">0 / 15</span>
+  </div>
+
+  <!-- Confirmed -->
+  <div class="card">
+    <div class="card-title">🎯 נרשמו (<span id="confirmedCnt">0</span>/15)</div>
+    <div id="confirmedList"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
+  </div>
+
+  <!-- Waiting list -->
+  <div class="card" id="waitingCard" style="display:none;">
+    <div class="card-title" style="color:var(--orange);">🔶 רשימת המתנה</div>
+    <div id="waitingList"></div>
+  </div>
+
+  <!-- All players (clickable) -->
+  <div class="card">
+    <div class="card-title">👥 לחץ על שמך להירשם / לבטל</div>
+    <div id="allPlayersList"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: TEAMS
+══════════════════════════════════════════ -->
+<div class="page" id="page-teams">
+  <div id="teamsContent">
+    <div class="empty-state">
+      <div class="ei">⚽</div>
+      <p>הקבוצות טרם נוצרו</p>
+      <p style="font-size:.8rem;margin-top:6px;">המנהל יצור קבוצות לאחר סגירת ההרשמה</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HISTORY
+══════════════════════════════════════════ -->
+<div class="page" id="page-history">
+  <div id="historyContent">
+    <div class="loading"><div class="spinner"></div><br>טוען היסטוריה...</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: GALLERY
+══════════════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <div id="galleryContent">
+    <div class="loading"><div class="spinner"></div><br>טוען גלריה...</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: SQUAD
+══════════════════════════════════════════ -->
+<div class="page" id="page-squad">
+  <div id="squadContent">
+    <div class="loading"><div class="spinner"></div><br>טוען סגל...</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ADMIN
+══════════════════════════════════════════ -->
+<div class="page" id="page-admin">
+
+  <!-- Login -->
+  <div class="card" id="adminLoginCard">
+    <div class="card-title">🔐 כניסת מנהל</div>
+    <input type="password" id="adminPwInput" placeholder="סיסמת מנהל"
+           onkeypress="if(event.key==='Enter')adminLogin()"/>
+    <button class="btn btn-primary btn-full" onclick="adminLogin()">כניסה →</button>
+  </div>
+
+  <!-- Admin panel (shown after login) -->
+  <div id="adminPanel" style="display:none;">
+
+    <!-- Reg control -->
+    <div class="card">
+      <div class="card-title">📅 שליטה בהרשמה</div>
+      <div class="row">
+        <button class="btn btn-primary f1" onclick="setRegOpen(true)">▶ פתח הרשמה</button>
+        <button class="btn btn-danger f1"  onclick="setRegOpen(false)">■ סגור הרשמה</button>
+      </div>
+      <button class="btn btn-ghost btn-full" onclick="clearRegs()">🗑️ נקה הרשמות השבוע</button>
+    </div>
+
+    <!-- Generate teams -->
+    <div class="card">
+      <div class="card-title">⚽ יצירת קבוצות מאוזנות</div>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
+        האלגוריתם מחלק 15 שחקנים ל-3 קבוצות מאוזנות לפי הדירוג הכולל + רמת אקראיות שתבחר.
+      </p>
+      <div class="row-c" style="margin-bottom:10px;">
+        <span style="font-size:.83rem;color:var(--muted);min-width:68px;">אקראיות:</span>
+        <input type="range" id="rndSlider" min="0" max="100" value="20" class="f1"
+               oninput="document.getElementById('rndVal').textContent=this.value+'%'"/>
+        <span id="rndVal" style="color:var(--orange);font-weight:900;min-width:38px;">20%</span>
+      </div>
+      <button class="btn btn-warn btn-full" onclick="generateTeams()">🎲 צור קבוצות</button>
+      <button class="btn btn-ghost btn-full" onclick="clearTeams()">↩️ מחק קבוצות</button>
+    </div>
+
+    <!-- Weekly Settings -->
+    <div class="card">
+      <div class="card-title">📅 הגדרות שבוע נוכחי</div>
+      <label style="font-size:.8rem;color:var(--muted2);display:block;margin-bottom:3px;">💳 קישור Bit לתשלום (משתנה כל שבוע)</label>
+      <input type="text" id="bitLinkInput" placeholder="https://bit.ly/..." />
+      <label style="font-size:.8rem;color:var(--muted2);display:block;margin:8px 0 3px;">📸 קישור גלריה (Google Photos / Drive)</label>
+      <input type="text" id="galleryLinkInput" placeholder="https://photos.google.com/..." />
+      <button class="btn btn-primary btn-full" onclick="saveWeekSettings()">💾 שמור הגדרות שבוע</button>
+    </div>
+
+    <!-- Results & MVP -->
+    <div class="card">
+      <div class="card-title">🏆 תוצאות ושחקן המצטיין</div>
+      <div id="resultsAdminSection">
+        <p style="font-size:.8rem;color:var(--muted2);">צור קבוצות קודם כדי להזין תוצאות.</p>
+      </div>
+      <div style="margin-top:10px;">
+        <label style="font-size:.8rem;color:var(--muted2);display:block;margin-bottom:3px;">⭐ שחקן המצטיין</label>
+        <select id="mvpSelect" style="width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:10px 12px;border-radius:var(--radius-sm);font-size:.88rem;font-family:inherit;">
+          <option value="">-- בחר שחקן --</option>
+        </select>
+      </div>
+      <div style="margin-top:8px;">
+        <label style="font-size:.8rem;color:var(--muted2);display:block;margin-bottom:3px;">⚽ גול המחזור</label>
+        <select id="goalSelect" style="width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:10px 12px;border-radius:var(--radius-sm);font-size:.88rem;font-family:inherit;">
+          <option value="">-- בחר שחקן --</option>
+        </select>
+      </div>
+      <div style="margin-top:8px;">
+        <label style="font-size:.8rem;color:var(--muted2);display:block;margin-bottom:3px;">🧤 הצלת המחזור</label>
+        <select id="saveSelect" style="width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:10px 12px;border-radius:var(--radius-sm);font-size:.88rem;font-family:inherit;">
+          <option value="">-- בחר שחקן --</option>
+        </select>
+      </div>
+      <button class="btn btn-warn btn-full" onclick="saveResultsAndMvp()">🏆 שמור תוצאות</button>
+    </div>
+
+    <!-- Weekly Performance Ratings -->
+    <div class="card">
+      <div class="card-title">📈 ניקוד שבועי לשחקנים</div>
+      <p style="font-size:.78rem;color:var(--muted2);margin-bottom:10px;line-height:1.55;">
+        תן ניקוד (1–10) לשחקנים שהצטיינו השבוע. אפשר לדרג הכל או רק את הטופ 3.
+        הניקוד מצטבר לטבלת המובילים בעמוד הבית.
+      </p>
+      <div id="weeklyRatingsList"><p style="font-size:.8rem;color:var(--muted2);">טוען...</p></div>
+      <button class="btn btn-primary btn-full" onclick="saveWeeklyRatings()">💾 שמור ניקוד שבועי</button>
+    </div>
+
+    <!-- Payment Tracker -->
+    <div class="card">
+      <div class="card-title">💳 מעקב תשלומים</div>
+      <div id="paymentTrackerList"><p style="font-size:.8rem;color:var(--muted2);">אין נרשמים עדיין לשבוע הנוכחי.</p></div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="card">
+      <div class="card-title">🔔 שליחת התראות</div>
+      <button class="notif-btn notif-btn-wa" onclick="sendWhatsAppOpen()">
+        <span style="font-size:1.2rem">💬</span>
+        <div>
+          <div>שלח הודעת פתיחת הרשמה</div>
+          <div style="font-size:.75rem;opacity:.7;">פותח WhatsApp עם הודעה מוכנה לקבוצה</div>
+        </div>
+      </button>
+      <button class="notif-btn notif-btn-copy" onclick="copyRegMessage()">
+        <span style="font-size:1.2rem">📋</span>
+        <div>
+          <div>העתק הודעת הרשמה</div>
+          <div style="font-size:.75rem;opacity:.7;">העתק טקסט מוכן לשליחה ידנית</div>
+        </div>
+      </button>
+      <button class="notif-btn notif-btn-wa" onclick="sendPaymentWhatsApp()">
+        <span style="font-size:1.2rem">💳</span>
+        <div>
+          <div>שלח תזכורת תשלום ל-15 שחקנים</div>
+          <div style="font-size:.75rem;opacity:.7;">פותח WhatsApp עם רשימת מי שלא שילם</div>
+        </div>
+      </button>
+      <button class="notif-btn notif-btn-email" onclick="sendEmailReminder()">
+        <span style="font-size:1.2rem">📧</span>
+        <div>
+          <div>שלח מייל תזכורת</div>
+          <div style="font-size:.75rem;opacity:.7;">פותח אפליקציית מייל עם רשימת הנרשמים</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Add player -->
+    <div class="card">
+      <div class="card-title">➕ הוסף שחקן חדש</div>
+      <input type="text" id="newPName" placeholder="שם השחקן"/>
+
+      <div style="margin-top:10px;" id="newPlayerSliders"></div>
+
+      <div class="ov-display" style="margin-top:8px;">
+        דירוג כולל: <span class="ov-big" id="newOvDisplay">5.0</span><span style="color:var(--muted);font-size:.9rem;"> / 10</span>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="addPlayer()">➕ הוסף לרשימה</button>
+    </div>
+
+    <!-- Players management -->
+    <div class="card">
+      <div class="card-title">📋 ניהול שחקנים (<span id="plCount">0</span>)</div>
+      <div id="adminPlayerList"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- Seed -->
+    <div class="card" id="seedCard" style="border-style:dashed;">
+      <div class="card-title" style="color:var(--muted);font-size:.82rem;">הגדרה ראשונית</div>
+      <button class="btn btn-ghost btn-full" style="font-size:.8rem;" onclick="seedPlayers()">
+        📥 טען 30 שחקנים לדוגמה (עם דירוגים)
+      </button>
+    </div>
+
+    <!-- Help -->
+    <div class="card">
+      <div class="card-title" style="color:var(--muted);font-size:.82rem;">❓ עזרה</div>
+      <p style="font-size:.78rem;color:var(--muted);line-height:1.65;">
+        <strong style="color:var(--white);">איך לשנות סיסמה:</strong> פתח את קובץ ה-HTML בעורך, חפש <code>ADMIN_PASS</code> ושנה.<br>
+        <strong style="color:var(--white);">הרשמה אוטומטית:</strong> מומלץ לפתוח הרשמה כל ראשון בשעה 20:00 ולסגור ביום שישי.<br>
+        <strong style="color:var(--white);">דירוג:</strong> דרג כל שחקן לפי 6 מאפיינים — הממוצע הוא הציון הכולל לאיזון.
+      </p>
+    </div>
+
+  </div><!-- /adminPanel -->
+</div><!-- /page-admin -->
+
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ─────────────────────────────────────────
+//  📊 PLAYER ATTRIBUTES DEFINITION
+// ─────────────────────────────────────────
+const ATTRS = [
+  { key:'attack',    label:'⚔️ התקפה',      short:'התקפה'  },
+  { key:'defense',   label:'🛡️ הגנה',        short:'הגנה'   },
+  { key:'fitness',   label:'🏃 כושר גופני', short:'כושר'   },
+  { key:'technique', label:'✨ טכניקה',      short:'טכניקה' },
+  { key:'passing',   label:'🎯 מסירות',      short:'מסירות' },
+  { key:'movement',  label:'💨 תנועה',       short:'תנועה'  },
+  { key:'speed',     label:'⚡ מהירות',      short:'מהירות' }
+];
+
+function calcOverall(p) {
+  if (!p) return 5;
+  const vals = ATTRS.map(a => (p[a.key] ?? p.attrs?.[a.key]) || 5);
+  return vals.reduce((s,v) => s+v, 0) / vals.length;
+}
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+let players    = [];
+let weekData   = {};
+let weekId     = '';
+let isAdmin    = false;
+let authToken  = localStorage.getItem('authToken') || '';
+
+// ─────────────────────────────────────────
+//  API HELPERS
+// ─────────────────────────────────────────
+const API = '/api';
+
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+  const res = await fetch(API + path, { ...opts, headers: { ...headers, ...opts.headers } });
+  if (res.status === 401) {
+    isAdmin = false;
+    authToken = '';
+    localStorage.removeItem('authToken');
+  }
+  return res;
+}
+
+async function apiJson(path, opts = {}) {
+  const res = await api(path, opts);
+  return res.json();
+}
+
+// ─────────────────────────────────────────
+//  DATE HELPERS
+// ─────────────────────────────────────────
+function getWeekId() {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = day === 6 ? 0 : (6 - day);
+  const sat = new Date(now);
+  sat.setDate(now.getDate() + diff);
+  const y = sat.getFullYear();
+  const m = String(sat.getMonth() + 1).padStart(2, '0');
+  const d = String(sat.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function fmtDate(str) {
+  const d = new Date(str);
+  return `שבת ${d.toLocaleDateString('he-IL',{day:'numeric',month:'long',year:'numeric'})}`;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+async function init() {
+  weekId = getWeekId();
+  document.getElementById('weekLabel').textContent = fmtDate(weekId);
+
+  await Promise.all([loadPlayers(), loadWeek()]);
+  renderReg();
+  renderTeams();
+  renderNewPlayerSliders();
+  renderHome();
+
+  // Check if we have a valid admin token
+  if (authToken) {
+    isAdmin = true;
+    document.getElementById('adminLoginCard').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderAdminPlayers();
+    loadWeekSettingsToAdmin();
+    renderWeeklyRatingsList();
+  }
+
+  // Poll for updates every 10 seconds
+  setInterval(async () => {
+    await Promise.all([loadPlayers(), loadWeek()]);
+    renderReg();
+    renderTeams();
+    const homePage = document.getElementById('page-home');
+    if (homePage && homePage.classList.contains('active')) renderHome();
+    if (isAdmin) {
+      renderAdminPlayers();
+      renderWeeklyRatingsList();
+    }
+  }, 10000);
+}
+
+async function loadPlayers() {
+  try {
+    players = await apiJson('/players?all=1');
+  } catch(e) { console.error('Failed to load players', e); }
+}
+
+async function loadWeek() {
+  try {
+    weekData = await apiJson('/weeks/current');
+  } catch(e) {
+    weekData = { registrations: [], teams: null, registration_open: 1 };
+    console.error('Failed to load week', e);
+  }
+  weekId = weekData.id || getWeekId();
+}
+
+// ─────────────────────────────────────────
+//  REGISTRATION RENDER
+// ─────────────────────────────────────────
+function renderReg() {
+  const regs      = weekData.registrations || [];
+  const confirmed = regs.slice(0,15);
+  const waiting   = regs.slice(15);
+  const isOpen    = weekData.registration_open !== 0;
+
+  document.getElementById('regStatusTxt').innerHTML = isOpen
+    ? '<span style="color:var(--teal)">⚡ הרשמה פתוחה</span>'
+    : '<span style="color:var(--orange)">🔒 הרשמה סגורה</span>';
+  document.getElementById('regCountBadge').textContent = `${confirmed.length} / 15`;
+  document.getElementById('regCountBadge').setAttribute('dir','ltr');
+  document.getElementById('confirmedCnt').textContent  = confirmed.length;
+
+  const cEl = document.getElementById('confirmedList');
+  cEl.innerHTML = confirmed.length === 0
+    ? '<div class="empty-state" style="padding:14px;"><p>אין נרשמים עדיין — לחץ על שמך!</p></div>'
+    : confirmed.map((r,i) => {
+        const p = players.find(x=>x.id===r.player_id);
+        return p ? `<div class="player-item confirmed" style="cursor:default;">
+          <span class="pname">${p.name}</span>
+          <span style="color:var(--muted);font-size:.75rem;">#${i+1}</span>
+        </div>` : '';
+      }).join('');
+
+  const wCard = document.getElementById('waitingCard');
+  if (waiting.length > 0) {
+    wCard.style.display = 'block';
+    document.getElementById('waitingList').innerHTML = waiting.map((r,i) => {
+      const p = players.find(x=>x.id===r.player_id);
+      return p ? `<div class="player-item waiting" style="cursor:default;">
+        <span class="pname">${p.name}</span>
+        <span class="badge badge-orange">ממתין #${i+1}</span>
+      </div>` : '';
+    }).join('');
+  } else { wCard.style.display='none'; }
+
+  const active = players.filter(p => p.active !== 0);
+  const allEl  = document.getElementById('allPlayersList');
+  if (active.length === 0) {
+    allEl.innerHTML = '<div class="empty-state" style="padding:14px;"><p>אין שחקנים ברשימה עדיין</p></div>';
+    return;
+  }
+  allEl.innerHTML = active.map(player => {
+    const idx        = regs.findIndex(r=>r.player_id===player.id);
+    const isConfirm  = idx !== -1 && idx < 15;
+    const isWait     = idx !== -1 && idx >= 15;
+    const ov         = calcOverall(player).toFixed(1);
+
+    let badge = '';
+    if (isConfirm)    badge = `<span class="badge badge-green">✅ #${idx+1}</span>`;
+    else if (isWait)  badge = `<span class="badge badge-orange">⏳ ${idx-14}</span>`;
+    else if (!isOpen) badge = `<span class="badge badge-muted">סגור</span>`;
+
+    const isRegistered = idx !== -1;
+    const canRemove    = isRegistered && isAdmin;
+    const locked       = isRegistered && !isAdmin;
+    const lockStyle    = locked ? 'cursor:default;' : (!isOpen && !isRegistered) ? 'opacity:.5;cursor:not-allowed;' : '';
+    const lockTip      = locked ? ' title="רק מנהל יכול להסיר"' : '';
+    return `<div class="player-item ${isConfirm?'confirmed':isWait?'waiting':''}"
+                 onclick="toggleReg('${player.id}')"
+                 style="${lockStyle}"${lockTip}>
+      <div>
+        <div class="pname">${player.name}</div>
+        ${isAdmin ? `<div class="prating">ציון: ${ov}/10</div>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        ${locked ? '<span style="font-size:.75rem;color:var(--muted2);">🔒</span>' : ''}
+        ${badge}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────
+//  TOGGLE REGISTRATION
+// ─────────────────────────────────────────
+async function toggleReg(playerId) {
+  const regs   = weekData.registrations || [];
+  const idx    = regs.findIndex(r=>r.player_id===playerId);
+  const player = players.find(p=>p.id===playerId);
+  if (!player) return;
+
+  if (idx !== -1) {
+    if (!isAdmin) {
+      toast('רק מנהל יכול להוריד שמות 🔒','err');
+      return;
+    }
+    await api(`/weeks/${weekId}/register/${playerId}`, { method: 'DELETE' });
+    toast(`❌ ${player.name} הוסר`,'warn');
+  } else {
+    if (weekData.registration_open === 0) { toast('ההרשמה סגורה','err'); return; }
+    const res = await apiJson(`/weeks/${weekId}/register/${playerId}`, { method: 'POST' });
+    if (res.error) { toast(res.error, 'err'); return; }
+    const pos = res.position;
+    if (pos <= 15) toast(`✅ ${player.name} נרשם! מקום ${pos}`);
+    else           toast(`⏳ ${player.name} ברשימת המתנה`,'warn');
+  }
+  await loadWeek();
+  renderReg();
+}
+
+// ─────────────────────────────────────────
+//  TEAM GENERATION
+// ─────────────────────────────────────────
+async function generateTeams() {
+  const regs = weekData.registrations || [];
+  const confirmed = regs.slice(0,15);
+  if (confirmed.length < 3) { toast(`צריך לפחות 3 שחקנים (יש ${confirmed.length})`,'err'); return; }
+
+  const rnd = parseInt(document.getElementById('rndSlider').value);
+  const res = await apiJson(`/weeks/${weekId}/teams/generate`, {
+    method: 'POST',
+    body: JSON.stringify({ randomness: rnd })
+  });
+  if (res.error) { toast(res.error, 'err'); return; }
+  toast('✅ קבוצות נוצרו!');
+  await loadWeek();
+  renderTeams();
+  switchPage('teams', document.querySelectorAll('.nav-btn')[2]);
+}
+
+// ─────────────────────────────────────────
+//  TEAMS RENDER
+// ─────────────────────────────────────────
+function renderTeams() {
+  const el    = document.getElementById('teamsContent');
+  const teams = weekData.teams;
+  if (!teams || teams.length === 0) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="ei">⚽</div>
+      <p>הקבוצות טרם נוצרו</p>
+      <p style="font-size:.78rem;margin-top:6px;">המנהל יצור קבוצות לאחר סגירת ההרשמה</p>
+    </div>`;
+    return;
+  }
+
+  const classes = ['team-A','team-B','team-C'];
+
+  el.innerHTML = `
+    <div class="teams-grid">
+      ${teams.map((t,i) => {
+        const avgOv = t.players && t.players.length > 0
+          ? (t.players.reduce((s,p) => s + calcOverall(p), 0) / t.players.length).toFixed(2)
+          : '0';
+        return `
+        <div class="team-card ${classes[i] || ''}">
+          <div class="team-hd">${t.team_emoji} ${t.team_name}</div>
+          ${isAdmin ? `<div class="team-avg">ציון כולל: ${avgOv} / 10</div>` : ''}
+          ${(t.players||[]).map(p => `
+            <div class="team-pl-row">
+              <span>${p.name}</span>
+              ${isAdmin ? `<span class="ov-pill">${calcOverall(p).toFixed(1)}</span>` : ''}
+            </div>
+          `).join('')}
+          ${isAdmin ? `
+          <div class="team-attrs">
+            <div class="team-attrs-title">ממוצע קבוצה לפי מאפיין</div>
+            ${ATTRS.map(a=>{
+              const avg = t.players && t.players.length > 0
+                ? (t.players.reduce((s,p) => s + ((p[a.key]) || 5), 0) / t.players.length).toFixed(1)
+                : '5';
+              return `
+              <div class="attr-bar-row">
+                <span class="attr-label">${a.short}</span>
+                <div class="attr-bar-track"><div class="attr-bar-fill" style="width:${(avg)*10}%;"></div></div>
+                <span class="attr-val">${avg}</span>
+              </div>`;
+            }).join('')}
+          </div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="row">
+        <button class="btn btn-warn f1" onclick="shareTeams()">📤 שתף WhatsApp</button>
+      </div>
+    </div>
+  `;
+}
+
+function shareTeams() {
+  const teams = weekData.teams;
+  if (!teams) return;
+  let text = `⚽ הקט של שובל — ${fmtDate(weekId)}\n\n`;
+  teams.forEach(t => {
+    const avgOv = t.players && t.players.length > 0
+      ? (t.players.reduce((s,p) => s + calcOverall(p), 0) / t.players.length).toFixed(2)
+      : '0';
+    text += `${t.team_emoji} ${t.team_name} (ציון: ${avgOv})\n`;
+    (t.players||[]).forEach(p => text += `  • ${p.name}\n`);
+    text += '\n';
+  });
+  if (navigator.share) { navigator.share({title:'קבוצות כדורגל', text}); }
+  else if (navigator.clipboard) { navigator.clipboard.writeText(text).then(()=>toast('הועתק!')); }
+}
+
+async function clearTeams() {
+  if (!confirm('למחוק את הקבוצות?')) return;
+  await api(`/weeks/${weekId}/teams`, { method: 'DELETE' });
+  toast('קבוצות נמחקו','warn');
+  await loadWeek();
+  renderTeams();
+}
+
+// ─────────────────────────────────────────
+//  ADMIN
+// ─────────────────────────────────────────
+async function adminLogin() {
+  const pw = document.getElementById('adminPwInput').value;
+  try {
+    const res = await apiJson('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ password: pw })
+    });
+    if (res.token) {
+      authToken = res.token;
+      localStorage.setItem('authToken', authToken);
+      isAdmin = true;
+      document.getElementById('adminLoginCard').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      renderAdminPlayers();
+      loadWeekSettingsToAdmin();
+      renderWeeklyRatingsList();
+      renderReg();
+    } else {
+      toast('סיסמה שגויה','err');
+      document.getElementById('adminPwInput').value='';
+    }
+  } catch(e) {
+    toast('סיסמה שגויה','err');
+    document.getElementById('adminPwInput').value='';
+  }
+}
+
+async function setRegOpen(open) {
+  await api(`/weeks/${weekId}/registration`, {
+    method: 'PATCH',
+    body: JSON.stringify({ action: open ? 'open' : 'close' })
+  });
+  toast(open ? '✅ הרשמה נפתחה' : '🔴 הרשמה נסגרה');
+  await loadWeek();
+  renderReg();
+}
+
+async function clearRegs() {
+  if (!confirm('לנקות את כל ההרשמות של השבוע?')) return;
+  await api(`/weeks/${weekId}/registration`, {
+    method: 'PATCH',
+    body: JSON.stringify({ action: 'clear' })
+  });
+  await api(`/weeks/${weekId}/teams`, { method: 'DELETE' });
+  toast('✅ ההרשמות נוקו');
+  await loadWeek();
+  renderReg();
+  renderTeams();
+}
+
+// ─────────────────────────────────────────
+//  ADD PLAYER
+// ─────────────────────────────────────────
+function renderNewPlayerSliders() {
+  const el = document.getElementById('newPlayerSliders');
+  if (!el) return;
+  el.innerHTML = ATTRS.map(a => `
+    <div class="attr-slider-row">
+      <span class="attr-slider-label">${a.label}</span>
+      <input type="range" min="1" max="10" value="5" class="f1"
+             id="np_${a.key}"
+             oninput="this.nextElementSibling.textContent=this.value; updateNewOv()"/>
+      <span class="attr-slider-val">5</span>
+    </div>
+  `).join('');
+}
+
+function updateNewOv() {
+  const attrs = {};
+  ATTRS.forEach(a => { attrs[a.key] = parseInt(document.getElementById('np_'+a.key).value); });
+  document.getElementById('newOvDisplay').textContent = calcOverall(attrs).toFixed(1);
+}
+
+async function addPlayer() {
+  const name = document.getElementById('newPName').value.trim();
+  if (!name) { toast('הכנס שם שחקן','err'); return; }
+  if (players.some(p=>p.name===name)) { toast('שחקן בשם זה כבר קיים','err'); return; }
+
+  const body = { name };
+  ATTRS.forEach(a => { body[a.key] = parseInt(document.getElementById('np_'+a.key).value); });
+
+  await api('/players', { method: 'POST', body: JSON.stringify(body) });
+  document.getElementById('newPName').value='';
+  document.querySelectorAll('#newPlayerSliders .attr-slider-val').forEach(s=>s.textContent='5');
+  document.querySelectorAll('#newPlayerSliders input[type="range"]').forEach(s=>s.value=5);
+  document.getElementById('newOvDisplay').textContent='5.0';
+  toast(`✅ ${name} נוסף!`);
+  await loadPlayers();
+  renderAdminPlayers();
+  renderReg();
+}
+
+// ─────────────────────────────────────────
+//  ADMIN PLAYER LIST
+// ─────────────────────────────────────────
+function renderAdminPlayers() {
+  const el = document.getElementById('adminPlayerList');
+  document.getElementById('plCount').textContent = players.length;
+  if (players.length === 0) {
+    el.innerHTML='<div class="empty-state" style="padding:14px;"><p>אין שחקנים</p></div>';
+    return;
+  }
+  el.innerHTML = players.map(p => {
+    const ov = calcOverall(p).toFixed(1);
+    const hidden = p.active === 0;
+    return `
+    <div class="admin-pl-item" style="${hidden?'opacity:.5':''}">
+      <div class="admin-pl-header" onclick="togglePlayerExpand('${p.id}')">
+        <span class="admin-pl-name">${p.name_he || p.name}</span>
+        <span class="ov-pill" id="ovPill_${p.id}">${ov}</span>
+        <button onclick="event.stopPropagation();deletePlayer('${p.id}','${(p.name_he||p.name).replace(/'/g,"\\'")}')"
+                class="btn btn-sm" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;padding:4px 8px;">
+          🗑️
+        </button>
+        <button onclick="event.stopPropagation();toggleActive('${p.id}',${!hidden})"
+                class="btn btn-sm ${hidden?'btn-primary':'btn-danger'}">
+          ${hidden?'הצג':'הסתר'}
+        </button>
+      </div>
+      <div class="admin-pl-body" id="body_${p.id}">
+        <!-- Profile info -->
+        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07);">
+          <div style="font-size:.78rem;color:var(--teal);font-weight:700;margin-bottom:8px;">👤 פרטים אישיים</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">🇮🇱 שם בעברית</label>
+              <input type="text" id="nameHe_${p.id}" value="${p.name_he||''}" placeholder="שם מלא בעברית"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','name_he',this.value)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">🌍 שם באנגלית</label>
+              <input type="text" id="nameEn_${p.id}" value="${p.name_en||''}" placeholder="Full name in English"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','name_en',this.value)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">📅 תאריך לידה</label>
+              <input type="date" id="dob_${p.id}" value="${p.dob||''}"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','dob',this.value)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">📏 גובה (ס"מ)</label>
+              <input type="number" id="height_${p.id}" value="${p.height||''}" placeholder="175" min="140" max="220"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','height',this.value ? Number(this.value) : null)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">⚖️ משקל (ק"ג)</label>
+              <input type="number" id="weight_${p.id}" value="${p.weight||''}" placeholder="70" min="40" max="150"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','weight',this.value ? Number(this.value) : null)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">🎽 תפקיד</label>
+              <select id="position_${p.id}"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','position',this.value)">
+                <option value="" ${!p.position?'selected':''}>בחר תפקיד</option>
+                <option value="שוער"    ${p.position==='שוער'?'selected':''}>🥅 שוער</option>
+                <option value="בלם"     ${p.position==='בלם'?'selected':''}>🛡️ בלם</option>
+                <option value="קשר"     ${p.position==='קשר'?'selected':''}>🔗 קשר</option>
+                <option value="חלוץ"    ${p.position==='חלוץ'?'selected':''}>⚡ חלוץ</option>
+                <option value="כללי"   ${p.position==='כללי'?'selected':''}>⚽ כללי</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">📞 טלפון</label>
+              <input type="text" id="phone_${p.id}" value="${p.phone||''}" placeholder="05X-XXXXXXX"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','phone',this.value)"/>
+            </div>
+            <div>
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">🏆 קבוצה אהובה</label>
+              <input type="text" id="favTeam_${p.id}" value="${p.favorite_team||''}" placeholder="מכבי תל אביב..."
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','favorite_team',this.value)"/>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">🛡️ לוגו קבוצה (קישור תמונה)</label>
+              <input type="text" id="teamLogo_${p.id}" value="${p.team_logo_url||''}" placeholder="https://... (URL לתמונת לוגו)"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','team_logo_url',this.value)"/>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:2px;">📧 אימייל</label>
+              <input type="text" id="email_${p.id}" value="${p.email||''}" placeholder="example@email.com"
+                style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 10px;border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;"
+                onchange="saveProfileField('${p.id}','email',this.value)"/>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label style="font-size:.72rem;color:var(--muted2);display:block;margin-bottom:6px;">🖼️ תמונת פרופיל</label>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div id="photoPreview_${p.id}" style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,180,.3);flex-shrink:0;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;color:var(--teal);">
+                  ${p.photo_url
+                    ? `<img src="${p.photo_url}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.textContent='${getInitials(p.name)}'">`
+                    : getInitials(p.name)}
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+                  <input type="file" id="photoFile_${p.id}" accept="image/*" style="display:none"
+                    onchange="uploadPlayerPhoto('${p.id}',this)"/>
+                  <button class="btn btn-ghost" style="padding:6px 14px;font-size:.8rem;"
+                    onclick="document.getElementById('photoFile_${p.id}').click()">📤 העלה תמונה</button>
+                  <input type="text" id="photoUrl_${p.id}" value="${p.photo_url||''}" placeholder="או הדבק קישור https://..."
+                    style="width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:6px 10px;border-radius:var(--radius-sm);font-size:.76rem;font-family:inherit;"
+                    onchange="saveProfileField('${p.id}','photo_url',this.value)"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Attributes -->
+        <div style="font-size:.78rem;color:var(--teal);font-weight:700;margin-bottom:8px;">⚽ דירוג טכני</div>
+        ${ATTRS.map(a=>`
+          <div class="attr-slider-row">
+            <span class="attr-slider-label">${a.label}</span>
+            <input type="range" min="1" max="10"
+                   value="${p[a.key]||5}" class="f1"
+                   oninput="this.nextElementSibling.textContent=this.value; liveOv('${p.id}')"
+                   onchange="saveAttr('${p.id}','${a.key}',this.value)"/>
+            <span class="attr-slider-val">${p[a.key]||5}</span>
+          </div>
+        `).join('')}
+        <div class="ov-display" style="margin-top:6px;">
+          ציון כולל: <span class="ov-big" id="liveOv_${p.id}">${ov}</span><span style="color:var(--muted);font-size:.85rem;"> / 10</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togglePlayerExpand(pid) {
+  const body = document.getElementById('body_'+pid);
+  body.classList.toggle('open');
+}
+
+function liveOv(pid) {
+  const player = players.find(p=>p.id===pid);
+  if (!player) return;
+  const attrs = {};
+  ATTRS.forEach(a => {
+    const input = document.querySelector(`#body_${pid} input[onchange*="${a.key}"]`);
+    attrs[a.key] = input ? parseInt(input.value) : (player[a.key]||5);
+  });
+  const ov = calcOverall(attrs).toFixed(1);
+  const el1 = document.getElementById('liveOv_'+pid);
+  const el2 = document.getElementById('ovPill_'+pid);
+  if (el1) el1.textContent = ov;
+  if (el2) el2.textContent = ov;
+}
+
+async function saveAttr(pid, attrKey, val) {
+  await api(`/players/${pid}`, {
+    method: 'PUT',
+    body: JSON.stringify({ [attrKey]: parseInt(val) })
+  });
+}
+
+async function saveProfileField(pid, field, val) {
+  await api(`/players/${pid}`, {
+    method: 'PUT',
+    body: JSON.stringify({ [field]: val })
+  });
+  if (field === 'dob' && val) {
+    const age = Math.floor((new Date() - new Date(val)) / 31557600000);
+    toast(`✅ נשמר (גיל: ${age})`);
+  } else {
+    toast('✅ נשמר');
+  }
+  await loadPlayers();
+}
+
+function uploadPlayerPhoto(pid, input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('התמונה גדולה מדי (מקסימום 5MB)','err'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const SIZE = 200;
+      canvas.width = SIZE; canvas.height = SIZE;
+      const ctx = canvas.getContext('2d');
+      const side = Math.min(img.width, img.height);
+      const sx = (img.width  - side) / 2;
+      const sy = (img.height - side) / 2;
+      ctx.drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+      const preview = document.getElementById('photoPreview_' + pid);
+      if (preview) preview.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;">`;
+      const urlInput = document.getElementById('photoUrl_' + pid);
+      if (urlInput) urlInput.value = dataUrl;
+      saveProfileField(pid, 'photo_url', dataUrl);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function deletePlayer(pid, name) {
+  if (!isAdmin) { toast('רק מנהל יכול למחוק שחקנים 🔒', 'err'); return; }
+  const confirmName = prompt(`⚠️ מחיקה קבועה!\nכתוב את שם השחקן לאישור:\n"${name}"`);
+  if (confirmName !== name) { toast('השם לא תואם — בוטל', 'err'); return; }
+  try {
+    await api(`/players/${pid}`, { method: 'DELETE' });
+    toast('🗑️ ' + name + ' נמחק בהצלחה');
+    await loadPlayers();
+    renderAdminPlayers();
+    renderReg();
+  } catch(e) { toast('שגיאה: ' + e.message, 'err'); }
+}
+
+async function toggleActive(pid, active) {
+  await api(`/players/${pid}/toggle-active`, { method: 'PATCH' });
+  toast(active ? 'שחקן הוסתר' : 'שחקן הוחזר לרשימה','warn');
+  await loadPlayers();
+  renderAdminPlayers();
+  renderReg();
+}
+
+// ─────────────────────────────────────────
+//  SEED SAMPLE PLAYERS
+// ─────────────────────────────────────────
+async function seedPlayers() {
+  if (!confirm('להוסיף 30 שחקנים לדוגמה לרשימה?')) return;
+  const samples = [
+    {name:'יוסי כהן',     attack:8,defense:5,fitness:7,technique:7,passing:6,movement:7,speed:5},
+    {name:'דוד לוי',      attack:6,defense:8,fitness:7,technique:5,passing:6,movement:6,speed:5},
+    {name:'משה אברהם',    attack:9,defense:4,fitness:8,technique:8,passing:7,movement:8,speed:7},
+    {name:'אבי ישראלי',   attack:5,defense:7,fitness:6,technique:5,passing:7,movement:5,speed:5},
+    {name:'רן גולד',      attack:7,defense:6,fitness:8,technique:7,passing:7,movement:8,speed:7},
+    {name:'שלומי ביטון',  attack:5,defense:6,fitness:5,technique:4,passing:5,movement:5,speed:4},
+    {name:'גיל שחם',      attack:8,defense:7,fitness:7,technique:6,passing:7,movement:7,speed:6},
+    {name:'נועם כץ',      attack:6,defense:5,fitness:6,technique:7,passing:8,movement:6,speed:6},
+    {name:'עמית בן דוד',  attack:7,defense:6,fitness:7,technique:7,passing:6,movement:7,speed:6},
+    {name:'רועי פרץ',     attack:5,defense:7,fitness:5,technique:4,passing:5,movement:4,speed:4},
+    {name:'תומר חיים',    attack:8,defense:6,fitness:8,technique:7,passing:6,movement:8,speed:7},
+    {name:'ליאור שפירא',  attack:6,defense:7,fitness:6,technique:6,passing:7,movement:5,speed:5},
+    {name:'ירון מזרחי',   attack:7,defense:5,fitness:7,technique:8,passing:7,movement:7,speed:7},
+    {name:'בנימין פישר',  attack:4,defense:8,fitness:5,technique:4,passing:5,movement:4,speed:4},
+    {name:'ניר אוחיון',   attack:9,defense:5,fitness:9,technique:8,passing:8,movement:9,speed:8},
+    {name:'אלון גרין',    attack:6,defense:7,fitness:6,technique:6,passing:6,movement:5,speed:5},
+    {name:'רפי פרידמן',   attack:7,defense:6,fitness:6,technique:7,passing:7,movement:6,speed:6},
+    {name:'מוטי עמר',     attack:5,defense:5,fitness:5,technique:5,passing:5,movement:4,speed:4},
+    {name:'אסף אלוני',    attack:8,defense:6,fitness:7,technique:7,passing:6,movement:7,speed:6},
+    {name:'שי מנחם',      attack:6,defense:6,fitness:6,technique:6,passing:7,movement:6,speed:6},
+    {name:'ידיד נוי',     attack:7,defense:7,fitness:7,technique:6,passing:7,movement:7,speed:6},
+    {name:'כפיר ברק',     attack:5,defense:6,fitness:5,technique:5,passing:5,movement:5,speed:5},
+    {name:'ארי זיו',      attack:8,defense:5,fitness:8,technique:8,passing:6,movement:8,speed:7},
+    {name:'עידו שלום',    attack:6,defense:7,fitness:6,technique:5,passing:6,movement:5,speed:5},
+    {name:'אמיר דגן',     attack:7,defense:6,fitness:7,technique:7,passing:6,movement:7,speed:6},
+    {name:'לירן טל',      attack:5,defense:5,fitness:5,technique:5,passing:6,movement:4,speed:4},
+    {name:'אוהד קדם',     attack:8,defense:6,fitness:7,technique:7,passing:7,movement:7,speed:7},
+    {name:'בר הדר',       attack:6,defense:7,fitness:6,technique:6,passing:7,movement:6,speed:5},
+    {name:'שחר אגמון',    attack:7,defense:5,fitness:7,technique:8,passing:7,movement:7,speed:7},
+    {name:'יניב זיידמן',  attack:5,defense:6,fitness:5,technique:5,passing:5,movement:5,speed:5}
+  ];
+
+  const existing = new Set(players.map(p=>p.name));
+  const toAdd = samples.filter(s=>!existing.has(s.name));
+  if (toAdd.length === 0) { toast('כל השחקנים כבר קיימים','warn'); return; }
+
+  for (const s of toAdd) {
+    await api('/players', { method: 'POST', body: JSON.stringify(s) });
+  }
+  toast(`✅ ${toAdd.length} שחקנים נוספו!`);
+  document.getElementById('seedCard').style.display='none';
+  await loadPlayers();
+  renderAdminPlayers();
+  renderReg();
+}
+
+// ─────────────────────────────────────────
+//  UI HELPERS
+// ─────────────────────────────────────────
+function switchPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (page === 'history') renderHistory();
+  if (page === 'gallery') renderGallery();
+  if (page === 'squad')   renderSquad();
+  if (page === 'home')    renderHome();
+}
+
+let _toastTimer;
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = type==='err'?'var(--red)': type==='warn'?'var(--orange)':'var(--teal)';
+  el.style.color      = type==='err'?'#fff':'var(--bg)';
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>el.classList.remove('show'), 3200);
+}
+
+// ─────────────────────────────────────────
+//  HOME PAGE
+// ─────────────────────────────────────────
+function getInitials(name) {
+  if (!name) return '?';
+  const parts = name.trim().split(' ');
+  return parts.length >= 2
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0,2).toUpperCase();
+}
+
+function getAvatarColor(name) {
+  const palettes = [
+    'linear-gradient(135deg,#00d4b4,#0099cc)',
+    'linear-gradient(135deg,#4a9eff,#7b61ff)',
+    'linear-gradient(135deg,#8b5cf6,#ec4899)',
+    'linear-gradient(135deg,#f59e0b,#ef4444)',
+    'linear-gradient(135deg,#10b981,#0ea5e9)',
+    'linear-gradient(135deg,#f97316,#eab308)',
+  ];
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+  return palettes[Math.abs(h) % palettes.length];
+}
+
+let _countdownInterval = null;
+function startCountdown(targetDate) {
+  if (_countdownInterval) clearInterval(_countdownInterval);
+  const el = document.getElementById('homeCountdown');
+  if (!el) return;
+  function update() {
+    const diff = new Date(targetDate + 'T09:00:00') - new Date();
+    if (diff <= 0) {
+      el.innerHTML = '<div style="color:var(--teal);font-size:1.15rem;font-weight:900;padding:10px 0">⚽ היום משחקים!</div>';
+      clearInterval(_countdownInterval);
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.innerHTML = `<div class="countdown-grid">
+      <div class="countdown-box"><div class="countdown-num">${String(d).padStart(2,'0')}</div><div class="countdown-label">ימים</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(h).padStart(2,'0')}</div><div class="countdown-label">שעות</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(m).padStart(2,'0')}</div><div class="countdown-label">דקות</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(s).padStart(2,'0')}</div><div class="countdown-label">שניות</div></div>
+    </div>`;
+  }
+  update();
+  _countdownInterval = setInterval(update, 1000);
+}
+
+async function renderHome() {
+  document.getElementById('heroGameDate').textContent = '⚽ ' + fmtDate(weekId);
+  startCountdown(weekId);
+
+  const regs      = weekData.registrations || [];
+  const confirmed = regs.slice(0, 15);
+  const isOpen    = weekData.registration_open !== 0;
+  const pct       = Math.min(100, (confirmed.length / 15) * 100);
+  const spotsLeft = Math.max(0, 15 - confirmed.length);
+
+  document.getElementById('homeRegStatus').innerHTML = isOpen
+    ? '<span style="color:var(--teal)">⚡ פתוחה</span>'
+    : '<span style="color:var(--muted2)">🔒 סגורה</span>';
+  document.getElementById('homeRegCount').textContent = confirmed.length + ' / 15';
+  document.getElementById('homeRegBar').style.width   = pct + '%';
+  document.getElementById('homeSpotsLeft').textContent = spotsLeft > 0
+    ? spotsLeft + ' מקומות פנויים'
+    : '🔥 מלא! רשימת המתנה פעילה';
+
+  const previewEl = document.getElementById('homeRegPreview');
+  if (confirmed.length > 0) {
+    previewEl.innerHTML = confirmed.slice(0, 8).map(r => {
+      const p = players.find(x => x.id === r.player_id);
+      const name = p ? p.name : '?';
+      return `<span style="padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:700;
+        background:rgba(0,212,180,.12);border:1px solid rgba(0,212,180,.25);color:var(--teal)">
+        ${name.split(' ')[0]}</span>`;
+    }).join('') + (confirmed.length > 8 ? `<span style="font-size:.72rem;color:var(--muted2);padding:3px 6px">+${confirmed.length-8}</span>` : '');
+  } else {
+    previewEl.innerHTML = '<span style="font-size:.75rem;color:var(--muted2);">אין נרשמים עדיין</span>';
+  }
+
+  document.getElementById('homeTopPlayers').innerHTML =
+    '<div class="loading"><div class="spinner"></div><br>טוען...</div>';
+
+  try {
+    const allWeeks = await apiJson('/weeks');
+    const stats = await apiJson('/weeks/stats');
+
+    document.getElementById('homeTotalGames').textContent = stats.totalGames || allWeeks.length;
+
+    // Top rated players from stats
+    const topEl = document.getElementById('homeTopPlayers');
+    if (stats.topRatedPlayers && stats.topRatedPlayers.length > 0) {
+      const leaderboard = stats.topRatedPlayers;
+      const maxTotal = leaderboard[0].totalScore || 1;
+      topEl.innerHTML = leaderboard.map((entry, i) => {
+        const rankEmoji = ['🥇','🥈','🥉','#4','#5'][i];
+        const rankClass = ['gold','silver','bronze','',''][i];
+        const pct2 = (entry.totalScore / maxTotal) * 100;
+        return `<div class="home-top-player">
+          <div class="home-rank ${rankClass}">${rankEmoji}</div>
+          <div class="player-avatar" style="width:34px;height:34px;font-size:.75rem;background:${getAvatarColor(entry.name)}">${getInitials(entry.name)}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${entry.name}</div>
+            <div style="font-size:.68rem;color:var(--muted2);margin-top:1px">${entry.gamesRated} משחקים · ממוצע ${(entry.totalScore/entry.gamesRated).toFixed(1)}</div>
+            <div style="height:4px;background:rgba(255,255,255,.07);border-radius:3px;margin-top:4px;overflow:hidden">
+              <div style="height:100%;width:${pct2}%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:3px;transition:width .5s"></div>
+            </div>
+          </div>
+          <span style="font-size:.85rem;font-weight:900;color:var(--teal);min-width:32px;text-align:center">${entry.totalScore}</span>
+        </div>`;
+      }).join('');
+    } else {
+      topEl.innerHTML = '<p style="color:var(--muted2);font-size:.83rem;text-align:center;padding:14px 0">טרם ניתן ניקוד שבועי.<br>המנהל יוכל לדרג שחקנים אחרי כל משחק.</p>';
+    }
+
+    // Season MVP
+    if (stats.topMvp) {
+      document.getElementById('homeTopMvpAvatar').style.background = getAvatarColor(stats.topMvp.name);
+      document.getElementById('homeTopMvpAvatar').textContent = getInitials(stats.topMvp.name);
+      document.getElementById('homeTopMvpName').textContent = stats.topMvp.name.split(' ')[0];
+      document.getElementById('homeTopMvpCount').textContent = stats.topMvp.count + '× MVP';
+    }
+
+    // Last week with data
+    const lastRich = allWeeks.find(w => w.mvp || w.goal_of_round || w.save_of_round || (w.results && w.results.length > 0) || w.gallery_url);
+    if (lastRich) {
+      const dateStr = fmtDate(lastRich.id);
+
+      if (lastRich.mvp) {
+        document.getElementById('homeMvpSection').style.display = 'flex';
+        document.getElementById('homeMvpAvatar').style.background = getAvatarColor(lastRich.mvp);
+        document.getElementById('homeMvpAvatar').textContent = getInitials(lastRich.mvp);
+        document.getElementById('homeMvpName').textContent   = lastRich.mvp;
+        document.getElementById('homeMvpWeek').textContent   = dateStr;
+      }
+      if (lastRich.goal_of_round || lastRich.save_of_round) {
+        document.getElementById('homeAwardsRow').style.display = 'flex';
+      }
+      if (lastRich.goal_of_round) {
+        document.getElementById('homeGoalName').textContent = lastRich.goal_of_round;
+      } else {
+        document.getElementById('homeGoalSection').style.display = 'none';
+      }
+      if (lastRich.save_of_round) {
+        document.getElementById('homeSaveName').textContent = lastRich.save_of_round;
+      } else {
+        document.getElementById('homeSaveSection').style.display = 'none';
+      }
+
+      if (lastRich.gallery_url) {
+        const gBtn = document.getElementById('homeGalleryBtn');
+        gBtn.style.display = 'flex';
+        gBtn.href          = lastRich.gallery_url;
+        gBtn.querySelector('div > div:last-child').textContent = 'תמונות מ' + dateStr;
+      }
+
+      if (lastRich.results && lastRich.results.length > 0) {
+        document.getElementById('homeResultsSection').style.display = 'block';
+        document.getElementById('homeResultsDate').textContent = dateStr;
+        const teamColors = ['var(--teal)','var(--blue)','var(--purple)'];
+        document.getElementById('homeResultsList').innerHTML = lastRich.results.map((r, i) =>
+          `<div class="home-result-row">
+            <span style="font-weight:700;color:${teamColors[i]||'var(--white)'}">${r.team_name}</span>
+            <span style="font-size:1.1rem;font-weight:900">${r.score}</span>
+          </div>`
+        ).join('');
+      }
+    }
+  } catch(e) { /* silent fail */ }
+}
+
+// ─────────────────────────────────────────
+//  HISTORY PAGE
+// ─────────────────────────────────────────
+async function renderHistory() {
+  const el = document.getElementById('historyContent');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><br>טוען...</div>';
+  try {
+    const allWeeks = await apiJson('/weeks');
+    if (!allWeeks || allWeeks.length === 0) {
+      el.innerHTML = '<div class="empty-state"><div class="ei">📅</div><p>אין היסטוריה עדיין</p><p style="font-size:.8rem;margin-top:6px;">לאחר שבת ראשונה תופיע כאן ההיסטוריה</p></div>';
+      return;
+    }
+    el.innerHTML = allWeeks.map((w, idx) => {
+      const regs = w.registrations || [];
+      const results = w.results || [];
+      const mvp = w.mvp || '';
+      const galleryUrl = w.gallery_url || '';
+      const paymentUrl = w.payment_url || '';
+      const dateStr = fmtDate(w.id);
+      const isCurrentWeek = w.id === weekId;
+
+      let resultsHtml = '';
+      if (results.length > 0) {
+        resultsHtml = '<div style="margin:10px 0;">' +
+          results.map(r => `
+            <div class="result-row">
+              <span style="font-weight:700">${r.team_name}</span>
+              <span class="result-score">${r.score}</span>
+            </div>`).join('') + '</div>';
+      }
+
+      const linksHtml = [
+        paymentUrl ? `<a href="${paymentUrl}" target="_blank" class="action-link action-link-bit">💳 תשלום Bit</a>` : '',
+        galleryUrl ? `<a href="${galleryUrl}" target="_blank" class="action-link action-link-gallery">📸 גלריה</a>` : ''
+      ].filter(Boolean).join(' ');
+
+      const paid = w.payments || [];
+      const paidCount = regs.filter(reg => paid.includes(reg.player_id)).length;
+
+      return `
+        <div class="history-week">
+          <div class="history-week-header" onclick="toggleHistoryWeek('hw${idx}')">
+            <div>
+              <div class="history-week-date">${dateStr}</div>
+              <div style="font-size:.75rem;color:var(--muted2);margin-top:2px;">
+                ${regs.length} נרשמו${isCurrentWeek ? ' · <span style="color:var(--teal)">שבוע נוכחי</span>' : ''}
+                ${paid.length > 0 ? ` · ${paidCount}/${regs.length} שילמו` : ''}
+              </div>
+            </div>
+            <span style="color:var(--muted2);font-size:1.1rem">▾</span>
+          </div>
+          <div class="history-week-body" id="hw${idx}">
+            ${(w.mvp || w.goal_of_round || w.save_of_round) ? `
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;">
+                ${w.mvp          ? `<span class="mvp-badge">⭐ מצטיין: ${w.mvp}</span>` : ''}
+                ${w.goal_of_round? `<span class="mvp-badge" style="background:rgba(0,212,180,.08);border-color:rgba(0,212,180,.25);color:var(--teal)">⚽ גול: ${w.goal_of_round}</span>` : ''}
+                ${w.save_of_round? `<span class="mvp-badge" style="background:rgba(74,158,255,.08);border-color:rgba(74,158,255,.25);color:var(--blue)">🧤 הצלה: ${w.save_of_round}</span>` : ''}
+              </div>` : ''}
+            ${resultsHtml}
+            ${linksHtml ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">${linksHtml}</div>` : ''}
+            ${regs.length > 0 ? `
+              <div style="margin-top:10px">
+                <div style="font-size:.78rem;color:var(--muted2);margin-bottom:6px;font-weight:700">👥 נרשמו (${regs.length})</div>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                  ${regs.map(reg => {
+                    const isPaid = paid.includes(reg.player_id);
+                    return `<span style="padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:600;background:${isPaid ? 'rgba(0,212,180,.15)' : 'rgba(255,255,255,.06)'};border:1px solid ${isPaid ? 'rgba(0,212,180,.3)' : 'rgba(255,255,255,.08)'};color:${isPaid ? 'var(--teal)' : 'var(--white)'}">
+                      ${isPaid ? '✓ ' : ''}${reg.player_name || reg.player_id}
+                    </span>`;
+                  }).join('')}
+                </div>
+              </div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="ei">❌</div><p>שגיאה בטעינה</p></div>';
+  }
+}
+
+function toggleHistoryWeek(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+// ─────────────────────────────────────────
+//  GALLERY PAGE
+// ─────────────────────────────────────────
+async function renderGallery() {
+  const el = document.getElementById('galleryContent');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><br>טוען גלריה...</div>';
+  try {
+    const allWeeks = await apiJson('/weeks');
+    const withGallery = (allWeeks||[]).filter(w => w.gallery_url);
+
+    if (withGallery.length === 0) {
+      el.innerHTML = `
+        <div class="gallery-header">
+          <h2>📸 גלריית תמונות</h2>
+          <p>עדיין לא נוספו תמונות</p>
+        </div>
+        <div class="empty-state"><div class="ei">📷</div><p>גלריות ישמרו כאן אחרי כל מחזור</p></div>`;
+      return;
+    }
+
+    const cards = withGallery.map(w => {
+      const url = w.gallery_url;
+      const dateStr = fmtDate(w.id);
+      const mvp = w.mvp || '';
+      const regs = (w.registrations || []).length;
+      const isGPhotos = url.includes('photos.google') || url.includes('photos.app.goo');
+      const thumbIcon = isGPhotos ? '🖼️' : '📸';
+
+      return `
+        <div class="gallery-card">
+          <div class="gallery-card-thumb">${thumbIcon}</div>
+          <div class="gallery-card-body">
+            <div class="gallery-card-date">${dateStr}</div>
+            <div class="gallery-card-sub">${regs} שחקנים${mvp ? ` · ⭐ ${mvp}` : ''}</div>
+            <a href="${url}" target="_blank" class="gallery-card-btn">📸 פתח גלריה</a>
+          </div>
+        </div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="gallery-header">
+        <h2>📸 גלריית תמונות</h2>
+        <p>${withGallery.length} מחזורים עם תמונות</p>
+      </div>
+      <div class="gallery-grid">${cards}</div>`;
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="ei">❌</div><p>שגיאה בטעינת הגלריה</p></div>';
+  }
+}
+
+// ─────────────────────────────────────────
+//  SQUAD PAGE
+// ─────────────────────────────────────────
+function calcAge(dob) {
+  if (!dob) return null;
+  const diff = new Date() - new Date(dob);
+  return Math.floor(diff / 31557600000);
+}
+
+function renderSquad(filter) {
+  const el = document.getElementById('squadContent');
+  const allActive = players.filter(p => p.active !== 0);
+  const query = (filter || '').trim().toLowerCase();
+  const filtered = query
+    ? allActive.filter(p => p.name.toLowerCase().includes(query) || (p.favorite_team||'').toLowerCase().includes(query))
+    : allActive;
+
+  if (allActive.length === 0) {
+    el.innerHTML = `
+      <div class="squad-header"><h2>👕 הסגל</h2><p>עדיין אין שחקנים במערכת</p></div>
+      <div class="empty-state"><div class="ei">👤</div><p>הוסף שחקנים דרך דף הניהול</p></div>`;
+    return;
+  }
+
+  const cards = filtered.map(p => {
+    const age = calcAge(p.dob);
+    const dobDisplay = p.dob
+      ? new Date(p.dob).toLocaleDateString('he-IL', {day:'2-digit',month:'2-digit',year:'numeric'})
+      : null;
+
+    const photoHtml = p.photo_url
+      ? `<img src="${p.photo_url}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div class="squad-card-avatar" style="display:none">${getInitials(p.name)}</div>`
+      : `<div class="squad-card-avatar">${getInitials(p.name)}</div>`;
+
+    const posBadge = p.position
+      ? `<div class="squad-pos-badge">${p.position}</div>` : '';
+
+    const teamBadge = p.team_logo_url
+      ? `<div class="squad-card-team-badge"><img src="${p.team_logo_url}" onerror="this.parentElement.innerHTML='🛡️'"></div>`
+      : p.favorite_team
+        ? `<div class="squad-card-team-badge"><span>🛡️</span></div>`
+        : '';
+
+    const pills = [];
+    if (age !== null) pills.push({ val: age,       lbl: 'גיל' });
+    if (p.height)     pills.push({ val: p.height,  lbl: 'ס"מ' });
+    if (p.weight)     pills.push({ val: p.weight,  lbl: 'ק"ג' });
+    const statsHtml = pills.length ? `
+      <div class="squad-stats-row">
+        ${pills.map(s => `
+          <div class="squad-stat-pill">
+            <span class="squad-stat-pill-val">${s.val}</span>
+            <span class="squad-stat-pill-lbl">${s.lbl}</span>
+          </div>`).join('')}
+      </div>` : '';
+
+    return `
+      <div class="squad-card" data-pid="${p.id}">
+        <div class="squad-card-photo">
+          ${photoHtml}
+          <div class="squad-card-photo-overlay"></div>
+          ${posBadge}
+          ${teamBadge}
+        </div>
+        <div class="squad-card-body">
+          <div class="squad-card-name">${p.name_he || p.name}</div>
+          ${p.name_en ? `<div style="font-size:.68rem;color:var(--muted2);margin-top:1px;margin-bottom:2px;">${p.name_en}</div>` : ''}
+          ${p.favorite_team ? `<div class="squad-card-favteam">🏆 ${p.favorite_team}</div>` : ''}
+          ${statsHtml}
+          ${dobDisplay ? `<div class="squad-card-dob">📅 ${dobDisplay}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  const emptyMsg = filtered.length === 0
+    ? `<div class="empty-state"><div class="ei">🔍</div><p>לא נמצאו שחקנים</p></div>`
+    : `<div class="squad-grid">${cards}</div>`;
+
+  el.innerHTML = `
+    <div class="squad-header">
+      <h2>👕 הסגל</h2>
+      <p>${allActive.length} שחקנים רשומים</p>
+    </div>
+    <input class="squad-search" placeholder="🔍 חיפוש שחקן או קבוצה..."
+      oninput="renderSquad(this.value)" value="${filter||''}"/>
+    ${emptyMsg}`;
+}
+
+// ─────────────────────────────────────────
+//  WEEK SETTINGS (Admin)
+// ─────────────────────────────────────────
+async function saveWeekSettings() {
+  const bitLink = document.getElementById('bitLinkInput').value.trim();
+  const galleryLink = document.getElementById('galleryLinkInput').value.trim();
+  await api(`/weeks/${weekId}/settings`, {
+    method: 'PATCH',
+    body: JSON.stringify({ payment_url: bitLink, gallery_url: galleryLink })
+  });
+  toast('✅ הגדרות נשמרו!');
+}
+
+async function loadWeekSettingsToAdmin() {
+  if (weekData.payment_url) document.getElementById('bitLinkInput').value = weekData.payment_url;
+  if (weekData.gallery_url) document.getElementById('galleryLinkInput').value = weekData.gallery_url;
+
+  if (weekData.teams && weekData.teams.length) {
+    const existingResults = weekData.results || [];
+    document.getElementById('resultsAdminSection').innerHTML = weekData.teams.map((t, i) => {
+      const existing = existingResults.find(s => s.team_name === t.team_name);
+      return `
+        <div class="result-row" style="margin-bottom:8px;">
+          <span style="font-weight:700">${t.team_emoji} ${t.team_name}</span>
+          <input type="number" min="0" max="99" class="score-input" id="score_${i}"
+            value="${existing ? existing.score : ''}" placeholder="0"
+            style="width:60px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.15);color:var(--white);border-radius:6px;padding:5px;text-align:center;font-size:1rem;font-weight:900;">
+        </div>`;
+    }).join('');
+  }
+
+  const regs = weekData.registrations || [];
+  const regPlayerNames = players
+    .filter(p => regs.some(r => r.player_id === p.id))
+    .map(p => p.name);
+  const opts = (cur) =>
+    `<option value="">-- בחר שחקן --</option>` +
+    regPlayerNames.map(n => `<option value="${n}" ${cur===n?'selected':''}>${n}</option>`).join('');
+
+  document.getElementById('mvpSelect').innerHTML  = opts(weekData.mvp);
+  document.getElementById('goalSelect').innerHTML = opts(weekData.goal_of_round);
+  document.getElementById('saveSelect').innerHTML = opts(weekData.save_of_round);
+
+  renderPaymentTracker();
+}
+
+// ─────────────────────────────────────────
+//  WEEKLY PERFORMANCE RATINGS
+// ─────────────────────────────────────────
+function renderWeeklyRatingsList() {
+  const el = document.getElementById('weeklyRatingsList');
+  if (!el) return;
+  const regs      = weekData.registrations || [];
+  const confirmed = regs.slice(0, 15);
+  if (confirmed.length === 0) {
+    el.innerHTML = '<p style="font-size:.8rem;color:var(--muted2);">אין שחקנים רשומים לשבוע הנוכחי.</p>';
+    return;
+  }
+  const existing = (weekData.ratings || []).reduce((m, r) => { m[r.player_id] = r.score; return m; }, {});
+  el.innerHTML = confirmed.map(r => {
+    const p   = players.find(x => x.id === r.player_id);
+    const val = existing[r.player_id] || '';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);">
+      <div style="flex:1;font-size:.88rem;font-weight:700;">${p ? p.name : r.player_id}</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n =>
+          `<button onclick="selectWeeklyScore('${r.player_id}',${n},this)"
+            data-pid="${r.player_id}" data-val="${n}"
+            style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,.12);
+              background:${val==n?'var(--teal)':'rgba(255,255,255,.05)'};
+              color:${val==n?'#000':'var(--muted2)'};font-size:.75rem;font-weight:700;cursor:pointer;transition:all .15s;">
+            ${n}</button>`
+        ).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectWeeklyScore(playerId, score, btn) {
+  document.querySelectorAll(`[data-pid="${playerId}"]`).forEach(b => {
+    b.style.background = 'rgba(255,255,255,.05)';
+    b.style.color      = 'var(--muted2)';
+  });
+  btn.style.background = 'var(--teal)';
+  btn.style.color      = '#000';
+}
+
+async function saveWeeklyRatings() {
+  const regs      = weekData.registrations || [];
+  const confirmed = regs.slice(0, 15);
+  const ratings   = [];
+  confirmed.forEach(r => {
+    const selected = document.querySelector(`[data-pid="${r.player_id}"][style*="var(--teal)"]`);
+    if (selected) {
+      ratings.push({ player_id: r.player_id, score: parseInt(selected.dataset.val) });
+    }
+  });
+  await api(`/weeks/${weekId}/ratings`, {
+    method: 'PUT',
+    body: JSON.stringify({ ratings })
+  });
+  toast(`✅ ניקוד שבועי נשמר ל-${ratings.length} שחקנים!`);
+}
+
+async function saveResultsAndMvp() {
+  const mvp  = document.getElementById('mvpSelect').value;
+  const goal = document.getElementById('goalSelect').value;
+  const save = document.getElementById('saveSelect').value;
+  const data = {
+    mvp, goal_of_round: goal, save_of_round: save,
+    results: []
+  };
+  if (weekData.teams) {
+    data.results = weekData.teams.map((t, i) => ({
+      team_name: t.team_name,
+      score: parseInt(document.getElementById('score_'+i)?.value || '0') || 0
+    }));
+  }
+  await api(`/weeks/${weekId}/results`, {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  });
+  toast('🏆 נשמר בהצלחה!');
+  await loadWeek();
+}
+
+// ─────────────────────────────────────────
+//  PAYMENT TRACKER
+// ─────────────────────────────────────────
+function renderPaymentTracker() {
+  const el = document.getElementById('paymentTrackerList');
+  const regs = weekData.registrations || [];
+  if (!regs.length) { el.innerHTML = '<p style="font-size:.8rem;color:var(--muted2);">אין נרשמים לשבוע הנוכחי.</p>'; return; }
+  const paid = weekData.payments || [];
+  el.innerHTML = regs.map(reg => {
+    const p = players.find(x => x.id === reg.player_id);
+    const isPaid = paid.includes(reg.player_id);
+    return `
+      <div class="paid-row ${isPaid ? 'paid-yes' : 'paid-no'}">
+        <span style="font-weight:600;font-size:.9rem">${p ? p.name : reg.player_id}</span>
+        <button class="paid-toggle ${isPaid ? 'is-paid' : 'not-paid'}"
+          onclick="togglePaid('${reg.player_id}')">
+          ${isPaid ? '✅ שילם' : '❌ לא שילם'}
+        </button>
+      </div>`;
+  }).join('');
+}
+
+async function togglePaid(playerId) {
+  await api(`/weeks/${weekId}/payments/${playerId}`, { method: 'POST' });
+  await loadWeek();
+  renderPaymentTracker();
+  const paid = weekData.payments || [];
+  const isPaid = paid.includes(playerId);
+  toast(isPaid ? '✅ תשלום אושר!' : '↩️ בוטל תשלום');
+}
+
+// ─────────────────────────────────────────
+//  NOTIFICATIONS
+// ─────────────────────────────────────────
+function getRegMessage() {
+  const siteUrl = window.location.origin;
+  const dateStr = fmtDate(weekId);
+  return `⚽ *הקט של שובל — ${dateStr}*\n\n⚡ ההרשמה פתוחה!\nנרשמים לפי הסדר — רק 15 מקומות.\n\n👉 להרשמה: ${siteUrl}\n\n_ההרשמה נסגרת ביום שישי בצהריים_`;
+}
+
+function sendWhatsAppOpen() {
+  const msg = encodeURIComponent(getRegMessage());
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+function copyRegMessage() {
+  navigator.clipboard.writeText(getRegMessage()).then(() => toast('📋 הועתק!'));
+}
+
+function sendPaymentWhatsApp() {
+  const regs = weekData.registrations || [];
+  const bitUrl = document.getElementById('bitLinkInput')?.value || '';
+  const dateStr = fmtDate(weekId);
+  const paid = weekData.payments || [];
+  const paidNames = regs.filter(r => paid.includes(r.player_id)).map(r => r.player_name || r.player_id);
+  const unpaidNames = regs.filter(r => !paid.includes(r.player_id)).map(r => r.player_name || r.player_id);
+  let msg = `⚽ *הקט של שובל — ${dateStr}*\n\n💳 *תזכורת תשלום למגרש*\n\nשילמו:\n`;
+  msg += paidNames.map(n=>`✅ ${n}`).join('\n') || '_אף אחד עדיין_';
+  msg += `\n\nממתינים לתשלום:\n` + (unpaidNames.map(n=>`❌ ${n}`).join('\n') || '_כולם שילמו! 🎉_');
+  if (bitUrl) msg += `\n\n💳 לתשלום: ${bitUrl}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function sendEmailReminder() {
+  const regs = weekData.registrations || [];
+  const dateStr = fmtDate(weekId);
+  const names = regs.map(r => r.player_name || r.player_id).join(', ');
+  const subject = encodeURIComponent(`הקט של שובל — ${dateStr}`);
+  const body = encodeURIComponent(`שלום,\n\nתזכורת לכדורגל ${dateStr}.\nהנרשמים: ${names}\n\nבהצלחה! ⚽`);
+  window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+}
+
+// ─────────────────────────────────────────
+//  BOOT
+// ─────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+services:
+  soccerapp:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/app/src
+      - ./frontend:/app/frontend
+      - wrangler-data:/app/.wrangler
+    environment:
+      - ADMIN_PASSWORD=Adiri!
+      - JWT_SECRET=soccer-secret-key
+
+volumes:
+  wrangler-data:
