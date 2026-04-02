@@ -620,9 +620,14 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 .squad-card:hover .squad-card-photo img { transform: scale(1.04); }
 
 .squad-card-avatar {
-  font-size: 4rem; font-weight: 900; color: var(--teal);
+  font-size: 1.6rem; font-weight: 900; color: var(--teal);
   text-shadow: 0 0 30px rgba(0,212,180,.5);
-  letter-spacing: -2px;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 1.3;
+  padding: 0 10px;
+  max-width: 90%;
+  word-break: break-word;
 }
 
 /* Position badge top-left */
@@ -917,7 +922,7 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 <header class="header">
   <h1>⚽ <span data-i18n="appTitle">הקט של חבר</span><span class="live-dot"></span></h1>
   <div class="sub" id="weekLabel" data-i18n="loading">טוען...</div>
-  <button id="langToggle" onclick="toggleLang()" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--white);padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:700;cursor:pointer;z-index:50;backdrop-filter:blur(6px);">EN</button>
+  <button id="langToggle" onclick="toggleLang()" style="position:absolute;top:10px;left:12px;background:rgba(0,212,180,.12);border:1px solid rgba(0,212,180,.35);color:var(--teal);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:800;cursor:pointer;z-index:50;backdrop-filter:blur(6px);transition:all .2s;">🌐 EN</button>
 </header>
 
 <!-- ══════════════════════════════════════════
@@ -1488,7 +1493,7 @@ function applyLang() {
   const isEn = currentLang === 'en';
   document.documentElement.lang = isEn ? 'en' : 'he';
   document.documentElement.dir = isEn ? 'ltr' : 'rtl';
-  document.getElementById('langToggle').textContent = isEn ? 'עב' : 'EN';
+  document.getElementById('langToggle').textContent = isEn ? '🌐 עברית' : '🌐 EN';
 
   // Translate static elements with data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -2591,10 +2596,11 @@ function renderSquad(filter) {
       ? new Date(p.dob).toLocaleDateString('he-IL', {day:'2-digit',month:'2-digit',year:'numeric'})
       : null;
 
+    const displayName = p.name_he || p.name;
     const photoHtml = p.photo_url
       ? `<img src="${p.photo_url}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-         <div class="squad-card-avatar" style="display:none">${getInitials(p.name)}</div>`
-      : `<div class="squad-card-avatar">${getInitials(p.name)}</div>`;
+         <div class="squad-card-avatar" style="display:none">${displayName}</div>`
+      : `<div class="squad-card-avatar">${displayName}</div>`;
 
     const posBadge = p.position
       ? `<div class="squad-pos-badge">${p.position}</div>` : '';
@@ -2606,9 +2612,9 @@ function renderSquad(filter) {
         : '';
 
     const pills = [];
-    if (age !== null) pills.push({ val: age,       lbl: 'גיל' });
-    if (p.height)     pills.push({ val: p.height,  lbl: 'ס"מ' });
-    if (p.weight)     pills.push({ val: p.weight,  lbl: 'ק"ג' });
+    if (age !== null) pills.push({ val: age,       lbl: t('squad.age') });
+    if (p.height)     pills.push({ val: p.height,  lbl: t('squad.cm') });
+    if (p.weight)     pills.push({ val: p.weight,  lbl: t('squad.kg') });
     const statsHtml = pills.length ? `
       <div class="squad-stats-row">
         ${pills.map(s => `
@@ -2627,8 +2633,9 @@ function renderSquad(filter) {
           ${teamBadge}
         </div>
         <div class="squad-card-body">
-          <div class="squad-card-name">${p.name_he || p.name}</div>
-          ${p.name_en ? `<div style="font-size:.68rem;color:var(--muted2);margin-top:1px;margin-bottom:2px;">${p.name_en}</div>` : ''}
+          ${currentLang === 'en'
+            ? `<div class="squad-card-name">${p.name_en || p.name}</div>`
+            : `<div class="squad-card-name">${p.name_en || ''}</div>`}
           ${p.favorite_team ? `<div class="squad-card-favteam">🏆 ${p.favorite_team}</div>` : ''}
           ${statsHtml}
           ${dobDisplay ? `<div class="squad-card-dob">📅 ${dobDisplay}</div>` : ''}
