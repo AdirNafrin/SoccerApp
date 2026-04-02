@@ -1,6 +1,6 @@
 {
-  "name": "הקט של שובל",
-  "short_name": "שובל FC",
+  "name": "הקט של חבר",
+  "short_name": "חבר FC",
   "description": "Soccer match management app",
   "start_url": "/",
   "display": "standalone",

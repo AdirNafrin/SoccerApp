@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>⚽ הקט של שובל</title>
+<title>⚽ הקט של חבר</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#00d4b4">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -915,7 +915,7 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
      HEADER
 ══════════════════════════════════════════ -->
 <header class="header">
-  <h1>⚽ <span data-i18n="appTitle">הקט של שובל</span><span class="live-dot"></span></h1>
+  <h1>⚽ <span data-i18n="appTitle">הקט של חבר</span><span class="live-dot"></span></h1>
   <div class="sub" id="weekLabel" data-i18n="loading">טוען...</div>
   <button id="langToggle" onclick="toggleLang()" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--white);padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:700;cursor:pointer;z-index:50;backdrop-filter:blur(6px);">EN</button>
 </header>
@@ -1279,7 +1279,7 @@ let currentLang = localStorage.getItem('lang') || 'he';
 
 const i18n = {
   he: {
-    appTitle: 'הקט של שובל',
+    appTitle: 'הקט של חבר',
     loading: 'טוען...',
     'nav.home': 'בית', 'nav.reg': 'הרשמה', 'nav.teams': 'קבוצות',
     'nav.history': 'היסטוריה', 'nav.gallery': 'גלריה', 'nav.squad': 'הסגל', 'nav.admin': 'ניהול',
@@ -1378,7 +1378,7 @@ const i18n = {
     'attr.techniqueShort': 'טכניקה', 'attr.passingShort': 'מסירות', 'attr.movementShort': 'תנועה', 'attr.speedShort': 'מהירות',
   },
   en: {
-    appTitle: 'Shuval FC',
+    appTitle: 'Haver FC',
     loading: 'Loading...',
     'nav.home': 'Home', 'nav.reg': 'Register', 'nav.teams': 'Teams',
     'nav.history': 'History', 'nav.gallery': 'Gallery', 'nav.squad': 'Squad', 'nav.admin': 'Admin',
@@ -1828,7 +1828,7 @@ function renderTeams() {
 function shareTeams() {
   const teams = weekData.teams;
   if (!teams) return;
-  let text = `⚽ הקט של שובל — ${fmtDate(weekId)}\n\n`;
+  let text = `⚽ הקט של חבר — ${fmtDate(weekId)}\n\n`;
   teams.forEach(t => {
     const avgOv = t.players && t.players.length > 0
       ? (t.players.reduce((s,p) => s + calcOverall(p), 0) / t.players.length).toFixed(2)
@@ -2813,7 +2813,7 @@ async function togglePaid(playerId) {
 function getRegMessage() {
   const siteUrl = window.location.origin;
   const dateStr = fmtDate(weekId);
-  return `⚽ *הקט של שובל — ${dateStr}*\n\n⚡ ההרשמה פתוחה!\nנרשמים לפי הסדר — רק 15 מקומות.\n\n👉 להרשמה: ${siteUrl}\n\n_ההרשמה נסגרת ביום שישי בצהריים_`;
+  return `⚽ *הקט של חבר — ${dateStr}*\n\n⚡ ההרשמה פתוחה!\nנרשמים לפי הסדר — רק 15 מקומות.\n\n👉 להרשמה: ${siteUrl}\n\n_ההרשמה נסגרת ביום שישי בצהריים_`;
 }
 
 function sendWhatsAppOpen() {
@@ -2832,7 +2832,7 @@ function sendPaymentWhatsApp() {
   const paid = weekData.payments || [];
   const paidNames = regs.filter(r => paid.includes(r.player_id)).map(r => r.player_name || r.player_id);
   const unpaidNames = regs.filter(r => !paid.includes(r.player_id)).map(r => r.player_name || r.player_id);
-  let msg = `⚽ *הקט של שובל — ${dateStr}*\n\n💳 *תזכורת תשלום למגרש*\n\nשילמו:\n`;
+  let msg = `⚽ *הקט של חבר — ${dateStr}*\n\n💳 *תזכורת תשלום למגרש*\n\nשילמו:\n`;
   msg += paidNames.map(n=>`✅ ${n}`).join('\n') || '_אף אחד עדיין_';
   msg += `\n\nממתינים לתשלום:\n` + (unpaidNames.map(n=>`❌ ${n}`).join('\n') || '_כולם שילמו! 🎉_');
   if (bitUrl) msg += `\n\n💳 לתשלום: ${bitUrl}`;
@@ -2843,7 +2843,7 @@ function sendEmailReminder() {
   const regs = weekData.registrations || [];
   const dateStr = fmtDate(weekId);
   const names = regs.map(r => r.player_name || r.player_id).join(', ');
-  const subject = encodeURIComponent(`הקט של שובל — ${dateStr}`);
+  const subject = encodeURIComponent(`הקט של חבר — ${dateStr}`);
   const body = encodeURIComponent(`שלום,\n\nתזכורת לכדורגל ${dateStr}.\nהנרשמים: ${names}\n\nבהצלחה! ⚽`);
   window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
 }

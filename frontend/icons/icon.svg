@@ -2,5 +2,5 @@
   <rect width="512" height="512" rx="80" fill="#080c18"/>
   <circle cx="256" cy="220" r="130" fill="#00d4b4" opacity="0.15"/>
   <text x="256" y="260" text-anchor="middle" font-size="180">⚽</text>
-  <text x="256" y="420" text-anchor="middle" font-size="60" fill="#00d4b4" font-family="Arial, sans-serif" font-weight="bold">שובל</text>
+  <text x="256" y="420" text-anchor="middle" font-size="60" fill="#00d4b4" font-family="Arial, sans-serif" font-weight="bold">חבר</text>
 </svg>
