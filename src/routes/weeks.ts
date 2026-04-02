@@ -30,7 +30,15 @@ weeks.get('/current', async (c) => {
 
   await ensureWeek(c.env.DB, weekId);
 
-  const week = await c.env.DB.prepare('SELECT * FROM weeks WHERE id = ?').bind(weekId).first();
+  // Auto-open registration on Sunday 20:00 Israel time
+  const israelTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
+  const israelDay = israelTime.getDay(); // 0=Sunday
+  const israelHour = israelTime.getHours();
+  const week = await c.env.DB.prepare('SELECT * FROM weeks WHERE id = ?').bind(weekId).first<any>();
+  if (week && week.registration_open === 0 && israelDay === 0 && israelHour >= 20) {
+    await c.env.DB.prepare('UPDATE weeks SET registration_open = 1 WHERE id = ?').bind(weekId).run();
+    week.registration_open = 1;
+  }
   const { results: registrations } = await c.env.DB.prepare(
     'SELECT r.*, p.name as player_name FROM registrations r JOIN players p ON p.id = r.player_id WHERE r.week_id = ? ORDER BY r.position'
   ).bind(weekId).all();

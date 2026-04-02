@@ -1705,7 +1705,9 @@ function renderReg() {
     const isRegistered = idx !== -1;
     const canRemove    = isRegistered && isAdmin;
     const locked       = isRegistered && !isAdmin;
-    const lockStyle    = locked ? 'cursor:default;' : (!isOpen && !isRegistered) ? 'opacity:.5;cursor:not-allowed;' : '';
+    const myReg        = getMyRegistration();
+    const alreadyUsed  = !isAdmin && myReg && !isRegistered; // this device already registered someone else
+    const lockStyle    = locked ? 'cursor:default;' : alreadyUsed ? 'opacity:.4;cursor:not-allowed;' : (!isOpen && !isRegistered) ? 'opacity:.5;cursor:not-allowed;' : '';
     const lockTip      = locked ? ` title="${t('reg.adminOnly')}"` : '';
     return `<div class="player-item ${isConfirm?'confirmed':isWait?'waiting':''}"
                  onclick="toggleReg('${player.id}')"
@@ -1725,6 +1727,16 @@ function renderReg() {
 // ─────────────────────────────────────────
 //  TOGGLE REGISTRATION
 // ─────────────────────────────────────────
+function getMyRegistration() {
+  return localStorage.getItem('reg_' + weekId);
+}
+function setMyRegistration(playerId) {
+  localStorage.setItem('reg_' + weekId, playerId);
+}
+function clearMyRegistration() {
+  localStorage.removeItem('reg_' + weekId);
+}
+
 async function toggleReg(playerId) {
   const regs   = weekData.registrations || [];
   const idx    = regs.findIndex(r=>r.player_id===playerId);
@@ -1732,16 +1744,31 @@ async function toggleReg(playerId) {
   if (!player) return;
 
   if (idx !== -1) {
+    // Already registered — only admin can remove
     if (!isAdmin) {
       toast(t('reg.adminOnlyRemove'),'err');
       return;
     }
     await api(`/weeks/${weekId}/register/${playerId}`, { method: 'DELETE' });
+    // If admin removes the player this device registered, clear local tracking
+    if (getMyRegistration() === playerId) clearMyRegistration();
     toast(`❌ ${player.name} ${t('reg.removed')}`,'warn');
   } else {
+    // New registration
     if (weekData.registration_open === 0) { toast(t('reg.regClosed'),'err'); return; }
+    // Non-admin: only one registration per device
+    const myReg = getMyRegistration();
+    if (!isAdmin && myReg) {
+      const alreadyPlayer = players.find(p => p.id === myReg);
+      const alreadyName = alreadyPlayer ? alreadyPlayer.name : '';
+      toast(currentLang === 'en'
+        ? `You already registered ${alreadyName}. Only one per person.`
+        : `כבר רשמת את ${alreadyName}. רק רישום אחד לכל אדם.`, 'err');
+      return;
+    }
     const res = await apiJson(`/weeks/${weekId}/register/${playerId}`, { method: 'POST' });
     if (res.error) { toast(res.error, 'err'); return; }
+    if (!isAdmin) setMyRegistration(playerId);
     const pos = res.position;
     if (pos <= 15) toast(`✅ ${player.name} ${t('reg.registered')} ${pos}`);
     else           toast(`⏳ ${player.name} ${t('reg.onWaitlist')}`,'warn');
