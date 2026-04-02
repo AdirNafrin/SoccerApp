@@ -8,4 +8,4 @@ directory = "./frontend"
 [[d1_databases]]
 binding = "DB"
 database_name = "soccer-db"
-database_id = "local"
+database_id = "ea317dac-2cd0-470f-a848-2a8adcae3215"
