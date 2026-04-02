@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>⚽ הקט של שובל</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#00d4b4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="/icons/icon.svg">
 
 <style>
 /* ══════════════════════════════════════════
@@ -910,21 +915,22 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
      HEADER
 ══════════════════════════════════════════ -->
 <header class="header">
-  <h1>⚽ הקט של שובל<span class="live-dot"></span></h1>
-  <div class="sub" id="weekLabel">טוען...</div>
+  <h1>⚽ <span data-i18n="appTitle">הקט של שובל</span><span class="live-dot"></span></h1>
+  <div class="sub" id="weekLabel" data-i18n="loading">טוען...</div>
+  <button id="langToggle" onclick="toggleLang()" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--white);padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:700;cursor:pointer;z-index:50;backdrop-filter:blur(6px);">EN</button>
 </header>
 
 <!-- ══════════════════════════════════════════
      NAVIGATION
 ══════════════════════════════════════════ -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-icon">🏠</span>בית</button>
-  <button class="nav-btn"        onclick="switchPage('reg',this)"><span class="nav-icon">✍️</span>הרשמה</button>
-  <button class="nav-btn"        onclick="switchPage('teams',this)"><span class="nav-icon">⚡</span>קבוצות</button>
-  <button class="nav-btn"        onclick="switchPage('history',this)"><span class="nav-icon">📊</span>היסטוריה</button>
-  <button class="nav-btn"        onclick="switchPage('gallery',this)"><span class="nav-icon">📸</span>גלריה</button>
-  <button class="nav-btn"        onclick="switchPage('squad',this)"><span class="nav-icon">👕</span>הסגל</button>
-  <button class="nav-btn"        onclick="switchPage('admin',this)"><span class="nav-icon">🔑</span>ניהול</button>
+  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-icon">🏠</span><span data-i18n="nav.home">בית</span></button>
+  <button class="nav-btn"        onclick="switchPage('reg',this)"><span class="nav-icon">✍️</span><span data-i18n="nav.reg">הרשמה</span></button>
+  <button class="nav-btn"        onclick="switchPage('teams',this)"><span class="nav-icon">⚡</span><span data-i18n="nav.teams">קבוצות</span></button>
+  <button class="nav-btn"        onclick="switchPage('history',this)"><span class="nav-icon">📊</span><span data-i18n="nav.history">היסטוריה</span></button>
+  <button class="nav-btn"        onclick="switchPage('gallery',this)"><span class="nav-icon">📸</span><span data-i18n="nav.gallery">גלריה</span></button>
+  <button class="nav-btn"        onclick="switchPage('squad',this)"><span class="nav-icon">👕</span><span data-i18n="nav.squad">הסגל</span></button>
+  <button class="nav-btn"        onclick="switchPage('admin',this)"><span class="nav-icon">🔑</span><span data-i18n="nav.admin">ניהול</span></button>
 </nav>
 
 <!-- ══════════════════════════════════════════
@@ -935,16 +941,16 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
   <!-- Hero Countdown -->
   <div class="home-hero">
     <div class="hero-game-date" id="heroGameDate">⚽ שבת הקרובה</div>
-    <div class="hero-subtitle">הכן את הרגליים — המשחק מגיע</div>
+    <div class="hero-subtitle" data-i18n="home.subtitle">הכן את הרגליים — המשחק מגיע</div>
     <div id="homeCountdown"><div class="loading"><div class="spinner"></div></div></div>
     <button class="btn btn-primary" style="margin-top:4px;padding:10px 28px;font-size:.95rem;"
-            onclick="switchPage('reg', document.querySelectorAll('.nav-btn')[1])">✍️ הירשם עכשיו</button>
+            onclick="switchPage('reg', document.querySelectorAll('.nav-btn')[1])"><span data-i18n="home.registerNow">✍️ הירשם עכשיו</span></button>
   </div>
 
   <!-- Registration status -->
   <div class="home-reg-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-      <span style="font-weight:800;font-size:.92rem;">🎯 הרשמה לשבת</span>
+      <span style="font-weight:800;font-size:.92rem;" data-i18n="home.regForSat">🎯 הרשמה לשבת</span>
       <span id="homeRegStatus" style="font-size:.82rem;">בודק...</span>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -961,21 +967,21 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
     <div class="mvp-info" style="text-align:center;width:100%;">
       <div class="mvp-week-lbl" id="homeMvpWeek">שבת אחרונה</div>
       <div class="mvp-name-big" id="homeMvpName">—</div>
-      <div class="mvp-sub">⭐ שחקן המצטיין</div>
+      <div class="mvp-sub" data-i18n="home.mvpTitle">⭐ שחקן המצטיין</div>
     </div>
   </div>
   <div id="homeAwardsRow" style="display:none;gap:10px;flex-direction:row;">
     <div id="homeGoalSection" class="home-mvp-card" style="flex:1;margin-bottom:0;padding:14px 10px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;">
       <div style="font-size:1.6rem;">⚽</div>
       <div class="mvp-info" style="text-align:center;width:100%;">
-        <div class="mvp-week-lbl">גול המחזור</div>
+        <div class="mvp-week-lbl" data-i18n="home.goalOfRound">גול המחזור</div>
         <div class="mvp-name-big" id="homeGoalName" style="font-size:.95rem;">—</div>
       </div>
     </div>
     <div id="homeSaveSection" class="home-mvp-card" style="flex:1;margin-bottom:0;padding:14px 10px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;">
       <div style="font-size:1.6rem;">🧤</div>
       <div class="mvp-info" style="text-align:center;width:100%;">
-        <div class="mvp-week-lbl">הצלת המחזור</div>
+        <div class="mvp-week-lbl" data-i18n="home.saveOfRound">הצלת המחזור</div>
         <div class="mvp-name-big" id="homeSaveName" style="font-size:.95rem;">—</div>
       </div>
     </div>
@@ -994,7 +1000,7 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
   <div class="home-row">
     <div class="home-stat-card">
       <div class="home-stat-num" id="homeTotalGames">—</div>
-      <div class="home-stat-label">שבתות שיחקנו</div>
+      <div class="home-stat-label" data-i18n="home.gamesPlayed">שבתות שיחקנו</div>
     </div>
     <div class="home-stat-card" style="background:linear-gradient(135deg,rgba(245,158,11,.09),rgba(245,158,11,.02));border-color:rgba(245,158,11,.22);">
       <div class="player-avatar" id="homeTopMvpAvatar" style="width:38px;height:38px;font-size:.82rem;margin:0 auto 6px;background:var(--teal)">?</div>
@@ -1011,7 +1017,7 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 
   <!-- Top rated players -->
   <div class="card" style="animation-delay:.27s;">
-    <div class="card-title">⭐ שחקנים מובילים</div>
+    <div class="card-title" data-i18n="home.topPlayers">⭐ שחקנים מובילים</div>
     <div id="homeTopPlayers"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
   </div>
 
@@ -1029,19 +1035,19 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 
   <!-- Confirmed -->
   <div class="card">
-    <div class="card-title">🎯 נרשמו (<span id="confirmedCnt">0</span>/15)</div>
+    <div class="card-title"><span data-i18n="reg.confirmed">🎯 נרשמו</span> (<span id="confirmedCnt">0</span>/15)</div>
     <div id="confirmedList"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
   </div>
 
   <!-- Waiting list -->
   <div class="card" id="waitingCard" style="display:none;">
-    <div class="card-title" style="color:var(--orange);">🔶 רשימת המתנה</div>
+    <div class="card-title" style="color:var(--orange);" data-i18n="reg.waitingList">🔶 רשימת המתנה</div>
     <div id="waitingList"></div>
   </div>
 
   <!-- All players (clickable) -->
   <div class="card">
-    <div class="card-title">👥 לחץ על שמך להירשם / לבטל</div>
+    <div class="card-title" data-i18n="reg.clickToRegister">👥 לחץ על שמך להירשם / לבטל</div>
     <div id="allPlayersList"><div class="loading"><div class="spinner"></div><br>טוען...</div></div>
   </div>
 
@@ -1094,10 +1100,10 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 
   <!-- Login -->
   <div class="card" id="adminLoginCard">
-    <div class="card-title">🔐 כניסת מנהל</div>
-    <input type="password" id="adminPwInput" placeholder="סיסמת מנהל"
+    <div class="card-title" data-i18n="admin.login">🔐 כניסת מנהל</div>
+    <input type="password" id="adminPwInput" data-i18n-placeholder="admin.passwordPlaceholder" placeholder="סיסמת מנהל"
            onkeypress="if(event.key==='Enter')adminLogin()"/>
-    <button class="btn btn-primary btn-full" onclick="adminLogin()">כניסה →</button>
+    <button class="btn btn-primary btn-full" onclick="adminLogin()" data-i18n="admin.loginBtn">כניסה →</button>
   </div>
 
   <!-- Admin panel (shown after login) -->
@@ -1105,17 +1111,17 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 
     <!-- Reg control -->
     <div class="card">
-      <div class="card-title">📅 שליטה בהרשמה</div>
+      <div class="card-title" data-i18n="admin.regControl">📅 שליטה בהרשמה</div>
       <div class="row">
-        <button class="btn btn-primary f1" onclick="setRegOpen(true)">▶ פתח הרשמה</button>
-        <button class="btn btn-danger f1"  onclick="setRegOpen(false)">■ סגור הרשמה</button>
+        <button class="btn btn-primary f1" onclick="setRegOpen(true)" data-i18n="admin.openReg">▶ פתח הרשמה</button>
+        <button class="btn btn-danger f1"  onclick="setRegOpen(false)" data-i18n="admin.closeReg">■ סגור הרשמה</button>
       </div>
-      <button class="btn btn-ghost btn-full" onclick="clearRegs()">🗑️ נקה הרשמות השבוע</button>
+      <button class="btn btn-ghost btn-full" onclick="clearRegs()" data-i18n="admin.clearRegs">🗑️ נקה הרשמות השבוע</button>
     </div>
 
     <!-- Generate teams -->
     <div class="card">
-      <div class="card-title">⚽ יצירת קבוצות מאוזנות</div>
+      <div class="card-title" data-i18n="admin.generateTeams">⚽ יצירת קבוצות מאוזנות</div>
       <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">
         האלגוריתם מחלק 15 שחקנים ל-3 קבוצות מאוזנות לפי הדירוג הכולל + רמת אקראיות שתבחר.
       </p>
@@ -1125,8 +1131,8 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
                oninput="document.getElementById('rndVal').textContent=this.value+'%'"/>
         <span id="rndVal" style="color:var(--orange);font-weight:900;min-width:38px;">20%</span>
       </div>
-      <button class="btn btn-warn btn-full" onclick="generateTeams()">🎲 צור קבוצות</button>
-      <button class="btn btn-ghost btn-full" onclick="clearTeams()">↩️ מחק קבוצות</button>
+      <button class="btn btn-warn btn-full" onclick="generateTeams()" data-i18n="admin.createTeams">🎲 צור קבוצות</button>
+      <button class="btn btn-ghost btn-full" onclick="clearTeams()" data-i18n="admin.deleteTeams">↩️ מחק קבוצות</button>
     </div>
 
     <!-- Weekly Settings -->
@@ -1248,7 +1254,7 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
     <div class="card">
       <div class="card-title" style="color:var(--muted);font-size:.82rem;">❓ עזרה</div>
       <p style="font-size:.78rem;color:var(--muted);line-height:1.65;">
-        <strong style="color:var(--white);">איך לשנות סיסמה:</strong> פתח את קובץ ה-HTML בעורך, חפש <code>ADMIN_PASS</code> ושנה.<br>
+        <strong style="color:var(--white);">איך לשנות סיסמה:</strong> הסיסמה מוגדרת בהגדרות השרת (Cloudflare secrets). פנה למנהל המערכת.<br>
         <strong style="color:var(--white);">הרשמה אוטומטית:</strong> מומלץ לפתוח הרשמה כל ראשון בשעה 20:00 ולסגור ביום שישי.<br>
         <strong style="color:var(--white);">דירוג:</strong> דרג כל שחקן לפי 6 מאפיינים — הממוצע הוא הציון הכולל לאיזון.
       </p>
@@ -1266,6 +1272,252 @@ hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 12px 0; 
 // ─────────────────────────────────────────
 //  📊 PLAYER ATTRIBUTES DEFINITION
 // ─────────────────────────────────────────
+// ─────────────────────────────────────────
+//  🌐 INTERNATIONALIZATION (i18n)
+// ─────────────────────────────────────────
+let currentLang = localStorage.getItem('lang') || 'he';
+
+const i18n = {
+  he: {
+    appTitle: 'הקט של שובל',
+    loading: 'טוען...',
+    'nav.home': 'בית', 'nav.reg': 'הרשמה', 'nav.teams': 'קבוצות',
+    'nav.history': 'היסטוריה', 'nav.gallery': 'גלריה', 'nav.squad': 'הסגל', 'nav.admin': 'ניהול',
+    'home.subtitle': 'הכן את הרגליים — המשחק מגיע',
+    'home.registerNow': '✍️ הירשם עכשיו',
+    'home.regForSat': '🎯 הרשמה לשבת',
+    'home.mvpTitle': '⭐ שחקן המצטיין',
+    'home.goalOfRound': 'גול המחזור', 'home.saveOfRound': 'הצלת המחזור',
+    'home.gamesPlayed': 'שבתות שיחקנו',
+    'home.topPlayers': '⭐ שחקנים מובילים',
+    'home.results': '📊 תוצאות',
+    'home.regOpen': '⚡ פתוחה', 'home.regClosed': '🔒 סגורה',
+    'home.spotsLeft': '{n} מקומות פנויים', 'home.full': '🔥 מלא! רשימת המתנה פעילה',
+    'home.noRegsYet': 'אין נרשמים עדיין',
+    'home.mvpOfSeason': 'מצטיין המחזור',
+    'home.noRatingsYet': 'טרם ניתן ניקוד שבועי.<br>המנהל יוכל לדרג שחקנים אחרי כל משחק.',
+    'home.galleryPhotos': '📸 גלריית תמונות', 'home.viewPhotos': 'לחץ לצפייה בתמונות השבוע',
+    'home.todayWePlay': '⚽ היום משחקים!',
+    'countdown.days': 'ימים', 'countdown.hours': 'שעות', 'countdown.minutes': 'דקות', 'countdown.seconds': 'שניות',
+    'reg.confirmed': '🎯 נרשמו', 'reg.waitingList': '🔶 רשימת המתנה',
+    'reg.clickToRegister': '👥 לחץ על שמך להירשם / לבטל',
+    'reg.open': '⚡ הרשמה פתוחה', 'reg.closed': '🔒 הרשמה סגורה',
+    'reg.noRegsYet': 'אין נרשמים עדיין — לחץ על שמך!',
+    'reg.noPlayers': 'אין שחקנים ברשימה עדיין',
+    'reg.waiting': 'ממתין', 'reg.closedBadge': 'סגור',
+    'reg.adminOnly': 'רק מנהל יכול להסיר', 'reg.score': 'ציון',
+    'reg.adminOnlyRemove': 'רק מנהל יכול להוריד שמות 🔒',
+    'reg.regClosed': 'ההרשמה סגורה',
+    'reg.registered': 'נרשם! מקום', 'reg.onWaitlist': 'ברשימת המתנה',
+    'reg.removed': 'הוסר',
+    'teams.notCreated': 'הקבוצות טרם נוצרו',
+    'teams.afterClose': 'המנהל יצור קבוצות לאחר סגירת ההרשמה',
+    'teams.overallScore': 'ציון כולל', 'teams.teamAvgAttr': 'ממוצע קבוצה לפי מאפיין',
+    'teams.shareWA': '📤 שתף WhatsApp',
+    'teams.deleteConfirm': 'למחוק את הקבוצות?', 'teams.deleted': 'קבוצות נמחקו',
+    'teams.created': '✅ קבוצות נוצרו!', 'teams.needMin': 'צריך לפחות 3 שחקנים (יש {n})',
+    'admin.login': '🔐 כניסת מנהל', 'admin.passwordPlaceholder': 'סיסמת מנהל', 'admin.loginBtn': 'כניסה →',
+    'admin.regControl': '📅 שליטה בהרשמה',
+    'admin.openReg': '▶ פתח הרשמה', 'admin.closeReg': '■ סגור הרשמה',
+    'admin.clearRegs': '🗑️ נקה הרשמות השבוע',
+    'admin.generateTeams': '⚽ יצירת קבוצות מאוזנות',
+    'admin.createTeams': '🎲 צור קבוצות', 'admin.deleteTeams': '↩️ מחק קבוצות',
+    'admin.randomness': 'אקראיות:',
+    'admin.weekSettings': '📅 הגדרות שבוע נוכחי',
+    'admin.bitLink': '💳 קישור Bit לתשלום', 'admin.galleryLink': '📸 קישור גלריה',
+    'admin.saveSettings': '💾 שמור הגדרות שבוע',
+    'admin.resultsTitle': '🏆 תוצאות ושחקן המצטיין',
+    'admin.mvp': '⭐ שחקן המצטיין', 'admin.goalOfRound': '⚽ גול המחזור', 'admin.saveOfRound': '🧤 הצלת המחזור',
+    'admin.selectPlayer': '-- בחר שחקן --', 'admin.saveResults': '🏆 שמור תוצאות',
+    'admin.weeklyRatings': '📈 ניקוד שבועי לשחקנים',
+    'admin.saveRatings': '💾 שמור ניקוד שבועי',
+    'admin.payments': '💳 מעקב תשלומים',
+    'admin.noRegs': 'אין נרשמים עדיין לשבוע הנוכחי.',
+    'admin.notifications': '🔔 שליחת התראות',
+    'admin.addPlayer': '➕ הוסף שחקן חדש', 'admin.addBtn': '➕ הוסף לרשימה',
+    'admin.playerName': 'שם השחקן', 'admin.overallRating': 'דירוג כולל',
+    'admin.managePlayersTitle': '📋 ניהול שחקנים',
+    'admin.show': 'הצג', 'admin.hide': 'הסתר',
+    'admin.regOpened': '✅ הרשמה נפתחה', 'admin.regClosed': '🔴 הרשמה נסגרה',
+    'admin.clearConfirm': 'לנקות את כל ההרשמות של השבוע?', 'admin.cleared': '✅ ההרשמות נוקו',
+    'admin.wrongPw': 'סיסמה שגויה',
+    'admin.enterName': 'הכנס שם שחקן', 'admin.nameExists': 'שחקן בשם זה כבר קיים',
+    'admin.saved': '✅ נשמר', 'admin.resultsSaved': '🏆 נשמר בהצלחה!',
+    'admin.ratingsSaved': 'ניקוד שבועי נשמר ל-{n} שחקנים!',
+    'admin.paid': '✅ שילם', 'admin.notPaid': '❌ לא שילם',
+    'admin.payConfirmed': '✅ תשלום אושר!', 'admin.payCancelled': '↩️ בוטל תשלום',
+    'admin.seedPlayers': '📥 טען 30 שחקנים לדוגמה', 'admin.seedConfirm': 'להוסיף 30 שחקנים לדוגמה לרשימה?',
+    'admin.deleteConfirm': '⚠️ מחיקה קבועה!\nכתוב את שם השחקן לאישור:\n"{name}"',
+    'admin.deleteMismatch': 'השם לא תואם — בוטל', 'admin.deleted': '🗑️ {name} נמחק בהצלחה',
+    'admin.photoTooBig': 'התמונה גדולה מדי (מקסימום 5MB)',
+    'history.noHistory': 'אין היסטוריה עדיין', 'history.afterFirst': 'לאחר שבת ראשונה תופיע כאן ההיסטוריה',
+    'history.registered': 'נרשמו', 'history.currentWeek': 'שבוע נוכחי', 'history.paid': 'שילמו',
+    'history.mvp': '⭐ מצטיין', 'history.goal': '⚽ גול', 'history.save': '🧤 הצלה',
+    'history.bitPayment': '💳 תשלום Bit', 'history.gallery': '📸 גלריה',
+    'history.loadError': 'שגיאה בטעינה',
+    'gallery.title': '📸 גלריית תמונות', 'gallery.noPhotos': 'עדיין לא נוספו תמונות',
+    'gallery.savedAfter': 'גלריות ישמרו כאן אחרי כל מחזור',
+    'gallery.roundsWithPhotos': '{n} מחזורים עם תמונות',
+    'gallery.players': 'שחקנים', 'gallery.openGallery': '📸 פתח גלריה',
+    'gallery.loadError': 'שגיאה בטעינת הגלריה',
+    'squad.title': '👕 הסגל', 'squad.noPlayers': 'עדיין אין שחקנים במערכת',
+    'squad.addViaAdmin': 'הוסף שחקנים דרך דף הניהול',
+    'squad.registered': '{n} שחקנים רשומים',
+    'squad.search': '🔍 חיפוש שחקן או קבוצה...', 'squad.notFound': 'לא נמצאו שחקנים',
+    'squad.age': 'גיל', 'squad.cm': 'ס"מ', 'squad.kg': 'ק"ג',
+    'date.saturday': 'שבת',
+    'games': 'משחקים', 'avg': 'ממוצע',
+    'notif.waOpen': 'שלח הודעת פתיחת הרשמה', 'notif.waOpenSub': 'פותח WhatsApp עם הודעה מוכנה לקבוצה',
+    'notif.copyReg': 'העתק הודעת הרשמה', 'notif.copyRegSub': 'העתק טקסט מוכן לשליחה ידנית',
+    'notif.payReminder': 'שלח תזכורת תשלום ל-15 שחקנים', 'notif.payReminderSub': 'פותח WhatsApp עם רשימת מי שלא שילם',
+    'notif.emailReminder': 'שלח מייל תזכורת', 'notif.emailReminderSub': 'פותח אפליקציית מייל עם רשימת הנרשמים',
+    'notif.copied': '📋 הועתק!',
+    'attr.attack': '⚔️ התקפה', 'attr.defense': '🛡️ הגנה', 'attr.fitness': '🏃 כושר גופני',
+    'attr.technique': '✨ טכניקה', 'attr.passing': '🎯 מסירות', 'attr.movement': '💨 תנועה', 'attr.speed': '⚡ מהירות',
+    'attr.attackShort': 'התקפה', 'attr.defenseShort': 'הגנה', 'attr.fitnessShort': 'כושר',
+    'attr.techniqueShort': 'טכניקה', 'attr.passingShort': 'מסירות', 'attr.movementShort': 'תנועה', 'attr.speedShort': 'מהירות',
+  },
+  en: {
+    appTitle: 'Shuval FC',
+    loading: 'Loading...',
+    'nav.home': 'Home', 'nav.reg': 'Register', 'nav.teams': 'Teams',
+    'nav.history': 'History', 'nav.gallery': 'Gallery', 'nav.squad': 'Squad', 'nav.admin': 'Admin',
+    'home.subtitle': 'Lace up — game day is coming',
+    'home.registerNow': '✍️ Register Now',
+    'home.regForSat': '🎯 Saturday Registration',
+    'home.mvpTitle': '⭐ Player of the Match',
+    'home.goalOfRound': 'Goal of the Round', 'home.saveOfRound': 'Save of the Round',
+    'home.gamesPlayed': 'Saturdays Played',
+    'home.topPlayers': '⭐ Top Players',
+    'home.results': '📊 Results',
+    'home.regOpen': '⚡ Open', 'home.regClosed': '🔒 Closed',
+    'home.spotsLeft': '{n} spots left', 'home.full': '🔥 Full! Waitlist active',
+    'home.noRegsYet': 'No registrations yet',
+    'home.mvpOfSeason': 'Season MVP',
+    'home.noRatingsYet': 'No weekly ratings yet.<br>Admin can rate players after each game.',
+    'home.galleryPhotos': '📸 Photo Gallery', 'home.viewPhotos': 'Click to view this week\'s photos',
+    'home.todayWePlay': '⚽ Game Day!',
+    'countdown.days': 'Days', 'countdown.hours': 'Hours', 'countdown.minutes': 'Minutes', 'countdown.seconds': 'Seconds',
+    'reg.confirmed': '🎯 Registered', 'reg.waitingList': '🔶 Waiting List',
+    'reg.clickToRegister': '👥 Tap your name to register / cancel',
+    'reg.open': '⚡ Registration Open', 'reg.closed': '🔒 Registration Closed',
+    'reg.noRegsYet': 'No registrations yet — tap your name!',
+    'reg.noPlayers': 'No players in the list yet',
+    'reg.waiting': 'Waiting', 'reg.closedBadge': 'Closed',
+    'reg.adminOnly': 'Only admin can remove', 'reg.score': 'Score',
+    'reg.adminOnlyRemove': 'Only admin can remove players 🔒',
+    'reg.regClosed': 'Registration is closed',
+    'reg.registered': 'registered! Spot', 'reg.onWaitlist': 'on waitlist',
+    'reg.removed': 'removed',
+    'teams.notCreated': 'Teams not created yet',
+    'teams.afterClose': 'Admin will create teams after registration closes',
+    'teams.overallScore': 'Overall', 'teams.teamAvgAttr': 'Team Average by Attribute',
+    'teams.shareWA': '📤 Share WhatsApp',
+    'teams.deleteConfirm': 'Delete teams?', 'teams.deleted': 'Teams deleted',
+    'teams.created': '✅ Teams created!', 'teams.needMin': 'Need at least 3 players (have {n})',
+    'admin.login': '🔐 Admin Login', 'admin.passwordPlaceholder': 'Admin password', 'admin.loginBtn': 'Login →',
+    'admin.regControl': '📅 Registration Control',
+    'admin.openReg': '▶ Open Registration', 'admin.closeReg': '■ Close Registration',
+    'admin.clearRegs': '🗑️ Clear This Week\'s Registrations',
+    'admin.generateTeams': '⚽ Generate Balanced Teams',
+    'admin.createTeams': '🎲 Create Teams', 'admin.deleteTeams': '↩️ Delete Teams',
+    'admin.randomness': 'Randomness:',
+    'admin.weekSettings': '📅 Current Week Settings',
+    'admin.bitLink': '💳 Bit Payment Link', 'admin.galleryLink': '📸 Gallery Link',
+    'admin.saveSettings': '💾 Save Week Settings',
+    'admin.resultsTitle': '🏆 Results & MVP',
+    'admin.mvp': '⭐ MVP', 'admin.goalOfRound': '⚽ Goal of the Round', 'admin.saveOfRound': '🧤 Save of the Round',
+    'admin.selectPlayer': '-- Select Player --', 'admin.saveResults': '🏆 Save Results',
+    'admin.weeklyRatings': '📈 Weekly Player Ratings',
+    'admin.saveRatings': '💾 Save Weekly Ratings',
+    'admin.payments': '💳 Payment Tracker',
+    'admin.noRegs': 'No registrations for the current week.',
+    'admin.notifications': '🔔 Send Notifications',
+    'admin.addPlayer': '➕ Add New Player', 'admin.addBtn': '➕ Add to List',
+    'admin.playerName': 'Player name', 'admin.overallRating': 'Overall Rating',
+    'admin.managePlayersTitle': '📋 Manage Players',
+    'admin.show': 'Show', 'admin.hide': 'Hide',
+    'admin.regOpened': '✅ Registration opened', 'admin.regClosed': '🔴 Registration closed',
+    'admin.clearConfirm': 'Clear all registrations for this week?', 'admin.cleared': '✅ Registrations cleared',
+    'admin.wrongPw': 'Wrong password',
+    'admin.enterName': 'Enter player name', 'admin.nameExists': 'Player with this name already exists',
+    'admin.saved': '✅ Saved', 'admin.resultsSaved': '🏆 Saved successfully!',
+    'admin.ratingsSaved': 'Weekly ratings saved for {n} players!',
+    'admin.paid': '✅ Paid', 'admin.notPaid': '❌ Not Paid',
+    'admin.payConfirmed': '✅ Payment confirmed!', 'admin.payCancelled': '↩️ Payment cancelled',
+    'admin.seedPlayers': '📥 Load 30 sample players', 'admin.seedConfirm': 'Add 30 sample players to the list?',
+    'admin.deleteConfirm': '⚠️ Permanent deletion!\nType the player name to confirm:\n"{name}"',
+    'admin.deleteMismatch': 'Name mismatch — cancelled', 'admin.deleted': '🗑️ {name} deleted successfully',
+    'admin.photoTooBig': 'Image too large (max 5MB)',
+    'history.noHistory': 'No history yet', 'history.afterFirst': 'History will appear after the first Saturday',
+    'history.registered': 'Registered', 'history.currentWeek': 'Current week', 'history.paid': 'Paid',
+    'history.mvp': '⭐ MVP', 'history.goal': '⚽ Goal', 'history.save': '🧤 Save',
+    'history.bitPayment': '💳 Bit Payment', 'history.gallery': '📸 Gallery',
+    'history.loadError': 'Error loading',
+    'gallery.title': '📸 Photo Gallery', 'gallery.noPhotos': 'No photos added yet',
+    'gallery.savedAfter': 'Galleries will be saved here after each round',
+    'gallery.roundsWithPhotos': '{n} rounds with photos',
+    'gallery.players': 'players', 'gallery.openGallery': '📸 Open Gallery',
+    'gallery.loadError': 'Error loading gallery',
+    'squad.title': '👕 The Squad', 'squad.noPlayers': 'No players in the system yet',
+    'squad.addViaAdmin': 'Add players via the admin page',
+    'squad.registered': '{n} registered players',
+    'squad.search': '🔍 Search player or team...', 'squad.notFound': 'No players found',
+    'squad.age': 'Age', 'squad.cm': 'cm', 'squad.kg': 'kg',
+    'date.saturday': 'Saturday',
+    'games': 'games', 'avg': 'avg',
+    'notif.waOpen': 'Send registration open message', 'notif.waOpenSub': 'Opens WhatsApp with a ready message',
+    'notif.copyReg': 'Copy registration message', 'notif.copyRegSub': 'Copy text for manual sending',
+    'notif.payReminder': 'Send payment reminder to 15 players', 'notif.payReminderSub': 'Opens WhatsApp with unpaid list',
+    'notif.emailReminder': 'Send email reminder', 'notif.emailReminderSub': 'Opens email app with registrant list',
+    'notif.copied': '📋 Copied!',
+    'attr.attack': '⚔️ Attack', 'attr.defense': '🛡️ Defense', 'attr.fitness': '🏃 Fitness',
+    'attr.technique': '✨ Technique', 'attr.passing': '🎯 Passing', 'attr.movement': '💨 Movement', 'attr.speed': '⚡ Speed',
+    'attr.attackShort': 'Attack', 'attr.defenseShort': 'Defense', 'attr.fitnessShort': 'Fitness',
+    'attr.techniqueShort': 'Technique', 'attr.passingShort': 'Passing', 'attr.movementShort': 'Movement', 'attr.speedShort': 'Speed',
+  }
+};
+
+function t(key, params) {
+  let str = (i18n[currentLang] && i18n[currentLang][key]) || (i18n.he[key]) || key;
+  if (params) Object.keys(params).forEach(k => { str = str.replace(`{${k}}`, params[k]); });
+  return str;
+}
+
+function applyLang() {
+  const isEn = currentLang === 'en';
+  document.documentElement.lang = isEn ? 'en' : 'he';
+  document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+  document.getElementById('langToggle').textContent = isEn ? 'עב' : 'EN';
+
+  // Translate static elements with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+
+  // Update ATTRS labels for dynamic content
+  ATTRS.forEach(a => {
+    a.label = t('attr.' + a.key);
+    a.short = t('attr.' + a.key + 'Short');
+  });
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'he' ? 'en' : 'he';
+  localStorage.setItem('lang', currentLang);
+  applyLang();
+  // Re-render dynamic content
+  renderReg();
+  renderTeams();
+  renderHome();
+  renderNewPlayerSliders();
+  if (isAdmin) { renderAdminPlayers(); renderWeeklyRatingsList(); }
+}
+
 const ATTRS = [
   { key:'attack',    label:'⚔️ התקפה',      short:'התקפה'  },
   { key:'defense',   label:'🛡️ הגנה',        short:'הגנה'   },
@@ -1330,6 +1582,9 @@ function getWeekId() {
 
 function fmtDate(str) {
   const d = new Date(str);
+  if (currentLang === 'en') {
+    return `Saturday ${d.toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'})}`;
+  }
   return `שבת ${d.toLocaleDateString('he-IL',{day:'numeric',month:'long',year:'numeric'})}`;
 }
 
@@ -1396,15 +1651,15 @@ function renderReg() {
   const isOpen    = weekData.registration_open !== 0;
 
   document.getElementById('regStatusTxt').innerHTML = isOpen
-    ? '<span style="color:var(--teal)">⚡ הרשמה פתוחה</span>'
-    : '<span style="color:var(--orange)">🔒 הרשמה סגורה</span>';
+    ? `<span style="color:var(--teal)">${t('reg.open')}</span>`
+    : `<span style="color:var(--orange)">${t('reg.closed')}</span>`;
   document.getElementById('regCountBadge').textContent = `${confirmed.length} / 15`;
   document.getElementById('regCountBadge').setAttribute('dir','ltr');
   document.getElementById('confirmedCnt').textContent  = confirmed.length;
 
   const cEl = document.getElementById('confirmedList');
   cEl.innerHTML = confirmed.length === 0
-    ? '<div class="empty-state" style="padding:14px;"><p>אין נרשמים עדיין — לחץ על שמך!</p></div>'
+    ? `<div class="empty-state" style="padding:14px;"><p>${t('reg.noRegsYet')}</p></div>`
     : confirmed.map((r,i) => {
         const p = players.find(x=>x.id===r.player_id);
         return p ? `<div class="player-item confirmed" style="cursor:default;">
@@ -1420,7 +1675,7 @@ function renderReg() {
       const p = players.find(x=>x.id===r.player_id);
       return p ? `<div class="player-item waiting" style="cursor:default;">
         <span class="pname">${p.name}</span>
-        <span class="badge badge-orange">ממתין #${i+1}</span>
+        <span class="badge badge-orange">${t('reg.waiting')} #${i+1}</span>
       </div>` : '';
     }).join('');
   } else { wCard.style.display='none'; }
@@ -1428,7 +1683,7 @@ function renderReg() {
   const active = players.filter(p => p.active !== 0);
   const allEl  = document.getElementById('allPlayersList');
   if (active.length === 0) {
-    allEl.innerHTML = '<div class="empty-state" style="padding:14px;"><p>אין שחקנים ברשימה עדיין</p></div>';
+    allEl.innerHTML = `<div class="empty-state" style="padding:14px;"><p>${t('reg.noPlayers')}</p></div>`;
     return;
   }
   allEl.innerHTML = active.map(player => {
@@ -1440,19 +1695,19 @@ function renderReg() {
     let badge = '';
     if (isConfirm)    badge = `<span class="badge badge-green">✅ #${idx+1}</span>`;
     else if (isWait)  badge = `<span class="badge badge-orange">⏳ ${idx-14}</span>`;
-    else if (!isOpen) badge = `<span class="badge badge-muted">סגור</span>`;
+    else if (!isOpen) badge = `<span class="badge badge-muted">${t('reg.closedBadge')}</span>`;
 
     const isRegistered = idx !== -1;
     const canRemove    = isRegistered && isAdmin;
     const locked       = isRegistered && !isAdmin;
     const lockStyle    = locked ? 'cursor:default;' : (!isOpen && !isRegistered) ? 'opacity:.5;cursor:not-allowed;' : '';
-    const lockTip      = locked ? ' title="רק מנהל יכול להסיר"' : '';
+    const lockTip      = locked ? ` title="${t('reg.adminOnly')}"` : '';
     return `<div class="player-item ${isConfirm?'confirmed':isWait?'waiting':''}"
                  onclick="toggleReg('${player.id}')"
                  style="${lockStyle}"${lockTip}>
       <div>
         <div class="pname">${player.name}</div>
-        ${isAdmin ? `<div class="prating">ציון: ${ov}/10</div>` : ''}
+        ${isAdmin ? `<div class="prating">${t('reg.score')}: ${ov}/10</div>` : ''}
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
         ${locked ? '<span style="font-size:.75rem;color:var(--muted2);">🔒</span>' : ''}
@@ -1473,18 +1728,18 @@ async function toggleReg(playerId) {
 
   if (idx !== -1) {
     if (!isAdmin) {
-      toast('רק מנהל יכול להוריד שמות 🔒','err');
+      toast(t('reg.adminOnlyRemove'),'err');
       return;
     }
     await api(`/weeks/${weekId}/register/${playerId}`, { method: 'DELETE' });
-    toast(`❌ ${player.name} הוסר`,'warn');
+    toast(`❌ ${player.name} ${t('reg.removed')}`,'warn');
   } else {
-    if (weekData.registration_open === 0) { toast('ההרשמה סגורה','err'); return; }
+    if (weekData.registration_open === 0) { toast(t('reg.regClosed'),'err'); return; }
     const res = await apiJson(`/weeks/${weekId}/register/${playerId}`, { method: 'POST' });
     if (res.error) { toast(res.error, 'err'); return; }
     const pos = res.position;
-    if (pos <= 15) toast(`✅ ${player.name} נרשם! מקום ${pos}`);
-    else           toast(`⏳ ${player.name} ברשימת המתנה`,'warn');
+    if (pos <= 15) toast(`✅ ${player.name} ${t('reg.registered')} ${pos}`);
+    else           toast(`⏳ ${player.name} ${t('reg.onWaitlist')}`,'warn');
   }
   await loadWeek();
   renderReg();
@@ -1496,7 +1751,7 @@ async function toggleReg(playerId) {
 async function generateTeams() {
   const regs = weekData.registrations || [];
   const confirmed = regs.slice(0,15);
-  if (confirmed.length < 3) { toast(`צריך לפחות 3 שחקנים (יש ${confirmed.length})`,'err'); return; }
+  if (confirmed.length < 3) { toast(t('teams.needMin',{n:confirmed.length}),'err'); return; }
 
   const rnd = parseInt(document.getElementById('rndSlider').value);
   const res = await apiJson(`/weeks/${weekId}/teams/generate`, {
@@ -1504,7 +1759,7 @@ async function generateTeams() {
     body: JSON.stringify({ randomness: rnd })
   });
   if (res.error) { toast(res.error, 'err'); return; }
-  toast('✅ קבוצות נוצרו!');
+  toast(t('teams.created'));
   await loadWeek();
   renderTeams();
   switchPage('teams', document.querySelectorAll('.nav-btn')[2]);
@@ -1519,8 +1774,8 @@ function renderTeams() {
   if (!teams || teams.length === 0) {
     el.innerHTML = `<div class="empty-state">
       <div class="ei">⚽</div>
-      <p>הקבוצות טרם נוצרו</p>
-      <p style="font-size:.78rem;margin-top:6px;">המנהל יצור קבוצות לאחר סגירת ההרשמה</p>
+      <p>${t('teams.notCreated')}</p>
+      <p style="font-size:.78rem;margin-top:6px;">${t('teams.afterClose')}</p>
     </div>`;
     return;
   }
@@ -1536,7 +1791,7 @@ function renderTeams() {
         return `
         <div class="team-card ${classes[i] || ''}">
           <div class="team-hd">${t.team_emoji} ${t.team_name}</div>
-          ${isAdmin ? `<div class="team-avg">ציון כולל: ${avgOv} / 10</div>` : ''}
+          ${isAdmin ? `<div class="team-avg">${t('teams.overallScore')}: ${avgOv} / 10</div>` : ''}
           ${(t.players||[]).map(p => `
             <div class="team-pl-row">
               <span>${p.name}</span>
@@ -1545,7 +1800,7 @@ function renderTeams() {
           `).join('')}
           ${isAdmin ? `
           <div class="team-attrs">
-            <div class="team-attrs-title">ממוצע קבוצה לפי מאפיין</div>
+            <div class="team-attrs-title">${t('teams.teamAvgAttr')}</div>
             ${ATTRS.map(a=>{
               const avg = t.players && t.players.length > 0
                 ? (t.players.reduce((s,p) => s + ((p[a.key]) || 5), 0) / t.players.length).toFixed(1)
@@ -1564,7 +1819,7 @@ function renderTeams() {
 
     <div class="card" style="margin-top:14px;">
       <div class="row">
-        <button class="btn btn-warn f1" onclick="shareTeams()">📤 שתף WhatsApp</button>
+        <button class="btn btn-warn f1" onclick="shareTeams()">${t('teams.shareWA')}</button>
       </div>
     </div>
   `;
@@ -1587,9 +1842,9 @@ function shareTeams() {
 }
 
 async function clearTeams() {
-  if (!confirm('למחוק את הקבוצות?')) return;
+  if (!confirm(t('teams.deleteConfirm'))) return;
   await api(`/weeks/${weekId}/teams`, { method: 'DELETE' });
-  toast('קבוצות נמחקו','warn');
+  toast(t('teams.deleted'),'warn');
   await loadWeek();
   renderTeams();
 }
@@ -1615,11 +1870,11 @@ async function adminLogin() {
       renderWeeklyRatingsList();
       renderReg();
     } else {
-      toast('סיסמה שגויה','err');
+      toast(t('admin.wrongPw'),'err');
       document.getElementById('adminPwInput').value='';
     }
   } catch(e) {
-    toast('סיסמה שגויה','err');
+    toast(t('admin.wrongPw'),'err');
     document.getElementById('adminPwInput').value='';
   }
 }
@@ -1629,19 +1884,19 @@ async function setRegOpen(open) {
     method: 'PATCH',
     body: JSON.stringify({ action: open ? 'open' : 'close' })
   });
-  toast(open ? '✅ הרשמה נפתחה' : '🔴 הרשמה נסגרה');
+  toast(open ? t('admin.regOpened') : t('admin.regClosed'));
   await loadWeek();
   renderReg();
 }
 
 async function clearRegs() {
-  if (!confirm('לנקות את כל ההרשמות של השבוע?')) return;
+  if (!confirm(t('admin.clearConfirm'))) return;
   await api(`/weeks/${weekId}/registration`, {
     method: 'PATCH',
     body: JSON.stringify({ action: 'clear' })
   });
   await api(`/weeks/${weekId}/teams`, { method: 'DELETE' });
-  toast('✅ ההרשמות נוקו');
+  toast(t('admin.cleared'));
   await loadWeek();
   renderReg();
   renderTeams();
@@ -1672,8 +1927,8 @@ function updateNewOv() {
 
 async function addPlayer() {
   const name = document.getElementById('newPName').value.trim();
-  if (!name) { toast('הכנס שם שחקן','err'); return; }
-  if (players.some(p=>p.name===name)) { toast('שחקן בשם זה כבר קיים','err'); return; }
+  if (!name) { toast(t('admin.enterName'),'err'); return; }
+  if (players.some(p=>p.name===name)) { toast(t('admin.nameExists'),'err'); return; }
 
   const body = { name };
   ATTRS.forEach(a => { body[a.key] = parseInt(document.getElementById('np_'+a.key).value); });
@@ -1696,7 +1951,7 @@ function renderAdminPlayers() {
   const el = document.getElementById('adminPlayerList');
   document.getElementById('plCount').textContent = players.length;
   if (players.length === 0) {
-    el.innerHTML='<div class="empty-state" style="padding:14px;"><p>אין שחקנים</p></div>';
+    el.innerHTML=`<div class="empty-state" style="padding:14px;"><p>${t('reg.noPlayers')}</p></div>`;
     return;
   }
   el.innerHTML = players.map(p => {
@@ -1713,7 +1968,7 @@ function renderAdminPlayers() {
         </button>
         <button onclick="event.stopPropagation();toggleActive('${p.id}',${!hidden})"
                 class="btn btn-sm ${hidden?'btn-primary':'btn-danger'}">
-          ${hidden?'הצג':'הסתר'}
+          ${hidden?t('admin.show'):t('admin.hide')}
         </button>
       </div>
       <div class="admin-pl-body" id="body_${p.id}">
@@ -1873,7 +2128,7 @@ async function saveProfileField(pid, field, val) {
 function uploadPlayerPhoto(pid, input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { toast('התמונה גדולה מדי (מקסימום 5MB)','err'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast(t('admin.photoTooBig'),'err'); return; }
   const reader = new FileReader();
   reader.onload = e => {
     const img = new Image();
@@ -1899,12 +2154,12 @@ function uploadPlayerPhoto(pid, input) {
 }
 
 async function deletePlayer(pid, name) {
-  if (!isAdmin) { toast('רק מנהל יכול למחוק שחקנים 🔒', 'err'); return; }
-  const confirmName = prompt(`⚠️ מחיקה קבועה!\nכתוב את שם השחקן לאישור:\n"${name}"`);
-  if (confirmName !== name) { toast('השם לא תואם — בוטל', 'err'); return; }
+  if (!isAdmin) { toast(t('reg.adminOnlyRemove'), 'err'); return; }
+  const confirmName = prompt(t('admin.deleteConfirm',{name}));
+  if (confirmName !== name) { toast(t('admin.deleteMismatch'), 'err'); return; }
   try {
     await api(`/players/${pid}`, { method: 'DELETE' });
-    toast('🗑️ ' + name + ' נמחק בהצלחה');
+    toast(t('admin.deleted',{name}));
     await loadPlayers();
     renderAdminPlayers();
     renderReg();
@@ -1913,7 +2168,7 @@ async function deletePlayer(pid, name) {
 
 async function toggleActive(pid, active) {
   await api(`/players/${pid}/toggle-active`, { method: 'PATCH' });
-  toast(active ? 'שחקן הוסתר' : 'שחקן הוחזר לרשימה','warn');
+  toast(active ? t('admin.hide') : t('admin.show'),'warn');
   await loadPlayers();
   renderAdminPlayers();
   renderReg();
@@ -1923,7 +2178,7 @@ async function toggleActive(pid, active) {
 //  SEED SAMPLE PLAYERS
 // ─────────────────────────────────────────
 async function seedPlayers() {
-  if (!confirm('להוסיף 30 שחקנים לדוגמה לרשימה?')) return;
+  if (!confirm(t('admin.seedConfirm'))) return;
   const samples = [
     {name:'יוסי כהן',     attack:8,defense:5,fitness:7,technique:7,passing:6,movement:7,speed:5},
     {name:'דוד לוי',      attack:6,defense:8,fitness:7,technique:5,passing:6,movement:6,speed:5},
@@ -2029,7 +2284,7 @@ function startCountdown(targetDate) {
   function update() {
     const diff = new Date(targetDate + 'T09:00:00') - new Date();
     if (diff <= 0) {
-      el.innerHTML = '<div style="color:var(--teal);font-size:1.15rem;font-weight:900;padding:10px 0">⚽ היום משחקים!</div>';
+      el.innerHTML = `<div style="color:var(--teal);font-size:1.15rem;font-weight:900;padding:10px 0">${t('home.todayWePlay')}</div>`;
       clearInterval(_countdownInterval);
       return;
     }
@@ -2038,10 +2293,10 @@ function startCountdown(targetDate) {
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
     el.innerHTML = `<div class="countdown-grid">
-      <div class="countdown-box"><div class="countdown-num">${String(d).padStart(2,'0')}</div><div class="countdown-label">ימים</div></div>
-      <div class="countdown-box"><div class="countdown-num">${String(h).padStart(2,'0')}</div><div class="countdown-label">שעות</div></div>
-      <div class="countdown-box"><div class="countdown-num">${String(m).padStart(2,'0')}</div><div class="countdown-label">דקות</div></div>
-      <div class="countdown-box"><div class="countdown-num">${String(s).padStart(2,'0')}</div><div class="countdown-label">שניות</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(d).padStart(2,'0')}</div><div class="countdown-label">${t('countdown.days')}</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(h).padStart(2,'0')}</div><div class="countdown-label">${t('countdown.hours')}</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(m).padStart(2,'0')}</div><div class="countdown-label">${t('countdown.minutes')}</div></div>
+      <div class="countdown-box"><div class="countdown-num">${String(s).padStart(2,'0')}</div><div class="countdown-label">${t('countdown.seconds')}</div></div>
     </div>`;
   }
   update();
@@ -2059,13 +2314,13 @@ async function renderHome() {
   const spotsLeft = Math.max(0, 15 - confirmed.length);
 
   document.getElementById('homeRegStatus').innerHTML = isOpen
-    ? '<span style="color:var(--teal)">⚡ פתוחה</span>'
-    : '<span style="color:var(--muted2)">🔒 סגורה</span>';
+    ? `<span style="color:var(--teal)">${t('home.regOpen')}</span>`
+    : `<span style="color:var(--muted2)">${t('home.regClosed')}</span>`;
   document.getElementById('homeRegCount').textContent = confirmed.length + ' / 15';
   document.getElementById('homeRegBar').style.width   = pct + '%';
   document.getElementById('homeSpotsLeft').textContent = spotsLeft > 0
-    ? spotsLeft + ' מקומות פנויים'
-    : '🔥 מלא! רשימת המתנה פעילה';
+    ? t('home.spotsLeft', {n: spotsLeft})
+    : t('home.full');
 
   const previewEl = document.getElementById('homeRegPreview');
   if (confirmed.length > 0) {
@@ -2077,11 +2332,11 @@ async function renderHome() {
         ${name.split(' ')[0]}</span>`;
     }).join('') + (confirmed.length > 8 ? `<span style="font-size:.72rem;color:var(--muted2);padding:3px 6px">+${confirmed.length-8}</span>` : '');
   } else {
-    previewEl.innerHTML = '<span style="font-size:.75rem;color:var(--muted2);">אין נרשמים עדיין</span>';
+    previewEl.innerHTML = `<span style="font-size:.75rem;color:var(--muted2);">${t('home.noRegsYet')}</span>`;
   }
 
   document.getElementById('homeTopPlayers').innerHTML =
-    '<div class="loading"><div class="spinner"></div><br>טוען...</div>';
+    `<div class="loading"><div class="spinner"></div><br>${t('loading')}</div>`;
 
   try {
     const allWeeks = await apiJson('/weeks');
@@ -2103,7 +2358,7 @@ async function renderHome() {
           <div class="player-avatar" style="width:34px;height:34px;font-size:.75rem;background:${getAvatarColor(entry.name)}">${getInitials(entry.name)}</div>
           <div style="flex:1;min-width:0">
             <div style="font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${entry.name}</div>
-            <div style="font-size:.68rem;color:var(--muted2);margin-top:1px">${entry.gamesRated} משחקים · ממוצע ${(entry.totalScore/entry.gamesRated).toFixed(1)}</div>
+            <div style="font-size:.68rem;color:var(--muted2);margin-top:1px">${entry.gamesRated} ${t('games')} · ${t('avg')} ${(entry.totalScore/entry.gamesRated).toFixed(1)}</div>
             <div style="height:4px;background:rgba(255,255,255,.07);border-radius:3px;margin-top:4px;overflow:hidden">
               <div style="height:100%;width:${pct2}%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:3px;transition:width .5s"></div>
             </div>
@@ -2112,7 +2367,7 @@ async function renderHome() {
         </div>`;
       }).join('');
     } else {
-      topEl.innerHTML = '<p style="color:var(--muted2);font-size:.83rem;text-align:center;padding:14px 0">טרם ניתן ניקוד שבועי.<br>המנהל יוכל לדרג שחקנים אחרי כל משחק.</p>';
+      topEl.innerHTML = `<p style="color:var(--muted2);font-size:.83rem;text-align:center;padding:14px 0">${t('home.noRatingsYet')}</p>`;
     }
 
     // Season MVP
@@ -2120,7 +2375,7 @@ async function renderHome() {
       document.getElementById('homeTopMvpAvatar').style.background = getAvatarColor(stats.topMvp.name);
       document.getElementById('homeTopMvpAvatar').textContent = getInitials(stats.topMvp.name);
       document.getElementById('homeTopMvpName').textContent = stats.topMvp.name.split(' ')[0];
-      document.getElementById('homeTopMvpCount').textContent = stats.topMvp.count + '× MVP';
+      document.getElementById('homeTopMvpCount').textContent = stats.topMvp.count + '× ' + t('home.mvpOfSeason');
     }
 
     // Last week with data
@@ -2405,7 +2660,7 @@ async function saveWeekSettings() {
     method: 'PATCH',
     body: JSON.stringify({ payment_url: bitLink, gallery_url: galleryLink })
   });
-  toast('✅ הגדרות נשמרו!');
+  toast(t('admin.saved'));
 }
 
 async function loadWeekSettingsToAdmin() {
@@ -2496,7 +2751,7 @@ async function saveWeeklyRatings() {
     method: 'PUT',
     body: JSON.stringify({ ratings })
   });
-  toast(`✅ ניקוד שבועי נשמר ל-${ratings.length} שחקנים!`);
+  toast(`✅ ${t('admin.ratingsSaved',{n:ratings.length})}`);
 }
 
 async function saveResultsAndMvp() {
@@ -2517,7 +2772,7 @@ async function saveResultsAndMvp() {
     method: 'PUT',
     body: JSON.stringify(data)
   });
-  toast('🏆 נשמר בהצלחה!');
+  toast(t('admin.resultsSaved'));
   await loadWeek();
 }
 
@@ -2537,7 +2792,7 @@ function renderPaymentTracker() {
         <span style="font-weight:600;font-size:.9rem">${p ? p.name : reg.player_id}</span>
         <button class="paid-toggle ${isPaid ? 'is-paid' : 'not-paid'}"
           onclick="togglePaid('${reg.player_id}')">
-          ${isPaid ? '✅ שילם' : '❌ לא שילם'}
+          ${isPaid ? t('admin.paid') : t('admin.notPaid')}
         </button>
       </div>`;
   }).join('');
@@ -2549,7 +2804,7 @@ async function togglePaid(playerId) {
   renderPaymentTracker();
   const paid = weekData.payments || [];
   const isPaid = paid.includes(playerId);
-  toast(isPaid ? '✅ תשלום אושר!' : '↩️ בוטל תשלום');
+  toast(isPaid ? t('admin.payConfirmed') : t('admin.payCancelled'));
 }
 
 // ─────────────────────────────────────────
@@ -2596,7 +2851,15 @@ function sendEmailReminder() {
 // ─────────────────────────────────────────
 //  BOOT
 // ─────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', () => {
+  applyLang();
+  init();
+});
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>

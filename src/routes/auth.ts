@@ -40,13 +40,16 @@ export function verifyToken(token: string, secret: string): boolean {
 
 auth.post('/login', async (c) => {
   const body = await c.req.json<{ password: string }>();
-  const adminPass = c.env.ADMIN_PASSWORD || 'Adiri!';
+  const adminPass = c.env.ADMIN_PASSWORD;
+  if (!adminPass) return c.json({ error: 'Server misconfigured' }, 500);
 
   if (body.password !== adminPass) {
     return c.json({ error: 'Invalid password' }, 401);
   }
 
-  const token = createToken(c.env.JWT_SECRET || 'soccer-secret-key');
+  const jwtSecret = c.env.JWT_SECRET;
+  if (!jwtSecret) return c.json({ error: 'Server misconfigured' }, 500);
+  const token = createToken(jwtSecret);
   return c.json({ token });
 });
 

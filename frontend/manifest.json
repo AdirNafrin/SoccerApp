@@ -1,0 +1,13 @@
+{
+  "name": "הקט של שובל",
+  "short_name": "שובל FC",
+  "description": "Soccer match management app",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080c18",
+  "theme_color": "#00d4b4",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -22,7 +22,7 @@ app.use('/api/players/*', async (c, next) => {
   const auth = c.req.header('Authorization');
   if (!auth?.startsWith('Bearer ')) return c.json({ error: 'Unauthorized' }, 401);
   const token = auth.slice(7);
-  if (!verifyToken(token, c.env.JWT_SECRET || 'soccer-secret-key')) {
+  if (!verifyToken(token, c.env.JWT_SECRET)) {
     return c.json({ error: 'Invalid token' }, 401);
   }
   return next();
@@ -38,7 +38,7 @@ app.use('/api/weeks/*', async (c, next) => {
   const auth = c.req.header('Authorization');
   if (!auth?.startsWith('Bearer ')) return c.json({ error: 'Unauthorized' }, 401);
   const token = auth.slice(7);
-  if (!verifyToken(token, c.env.JWT_SECRET || 'soccer-secret-key')) {
+  if (!verifyToken(token, c.env.JWT_SECRET)) {
     return c.json({ error: 'Invalid token' }, 401);
   }
   return next();
